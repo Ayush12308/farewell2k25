@@ -101,6 +101,18 @@
         transform: translateY(-8px);
         box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
       }
+
+      /* small keyframes for menu */
+      @keyframes fadeSlide {
+        from {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
     </style>
   </head>
   <body>
@@ -118,7 +130,7 @@
             viewBox: "0 0 24 24",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
-            ariaHidden: "true",
+            "aria-hidden": "true",
           },
           e("path", {
             d: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z",
@@ -146,7 +158,7 @@
             viewBox: "0 0 24 24",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
-            ariaHidden: "true",
+            "aria-hidden": "true",
           },
           e("path", {
             d: "M5 15l7-9 7 9",
@@ -167,7 +179,7 @@
             viewBox: "0 0 24 24",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
-            ariaHidden: "true",
+            "aria-hidden": "true",
           },
           e("path", {
             d: "M4 6h16M4 12h16M4 18h16",
@@ -187,7 +199,7 @@
             viewBox: "0 0 24 24",
             fill: "none",
             xmlns: "http://www.w3.org/2000/svg",
-            ariaHidden: "true",
+            "aria-hidden": "true",
           },
           e("path", {
             d: "M6 18L18 6M6 6l12 12",
@@ -242,22 +254,28 @@
             delay: 0.5,
           });
           // reveal sections on scroll
-          gsap.utils.toArray(".reveal").forEach((el, idx) => {
-            gsap.fromTo(
-              el,
-              { y: 24, opacity: 0 },
-              {
-                y: 0,
-                opacity: 1,
-                duration: 0.9,
-                delay: idx * 0.12,
-                scrollTrigger: {
-                  trigger: el,
-                  start: "top 85%",
-                },
-              }
-            );
-          });
+          if (gsap.utils && gsap.utils.toArray) {
+            try {
+              gsap.utils.toArray(".reveal").forEach((el, idx) => {
+                gsap.fromTo(
+                  el,
+                  { y: 24, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.9,
+                    delay: idx * 0.12,
+                    scrollTrigger: {
+                      trigger: el,
+                      start: "top 85%",
+                    },
+                  }
+                );
+              });
+            } catch (err) {
+              // scrollTrigger not available in lightweight GSAP include, ignore
+            }
+          }
         }, []);
 
         function toggleMusic() {
@@ -296,13 +314,25 @@
               e(
                 "div",
                 { className: "flex items-center gap-3" },
+                // Logo image (logo.png) fallback to "V" if not present
                 e(
                   "div",
-                  {
+                  { className: "flex items-center gap-3" },
+                  e("img", {
+                    src: "logo.png",
+                    alt: "VERVE logo",
+                    onError: "this.style.display='none'", // hide img if not found (so 'V' shows)
                     className:
-                      "w-12 h-12 rounded-full bg-gradient-to-br from-verveGold to-vervePurple flex items-center justify-center text-verveNavy font-extrabold text-lg shadow-md",
-                  },
-                  "V"
+                      "w-12 h-12 rounded-full object-cover shadow-md hidden md:block",
+                  }),
+                  e(
+                    "div",
+                    {
+                      className:
+                        "w-12 h-12 rounded-full bg-gradient-to-br from-verveGold to-vervePurple flex items-center justify-center text-verveNavy font-extrabold text-lg shadow-md md:hidden",
+                    },
+                    "V"
+                  )
                 ),
                 e(
                   "div",
@@ -405,6 +435,7 @@
                 {
                   className:
                     "md:hidden mobile-menu bg-verveNavy/95 backdrop-blur-md border-t border-white/6 py-4",
+                  style: { animation: "fadeSlide .28s ease" },
                 },
                 e(
                   "div",
@@ -731,7 +762,7 @@
               )
             ),
 
-            // VENUE
+            // VENUE (UPDATED: The Royal Retreat)
             e(
               "section",
               { id: "venue", className: "mb-12 reveal" },
@@ -743,11 +774,20 @@
               e(
                 "p",
                 { className: "text-gray-300 mb-4 max-w-3xl" },
-                "Date and venue will be revealed soon. Details will be posted here and on our Instagram once finalized."
+                "We’re thrilled to announce that our farewell will be hosted at ",
+                e(
+                  "strong",
+                  { className: "text-verveGold" },
+                  "The Royal Retreat, Ranchi"
+                ),
+                " — one of the city’s most elegant event destinations. Date and time are ",
+                e("strong", null, "To Be Decided"),
+                ", and updates will be posted here and on our official Instagram."
               ),
               e(
                 "div",
                 { className: "grid grid-cols-1 md:grid-cols-2 gap-6" },
+                // Image card
                 e(
                   "div",
                   {
@@ -755,23 +795,43 @@
                       "rounded-xl overflow-hidden border border-white/6",
                   },
                   e("img", {
-                    src: "header.jpg",
-                    alt: "venue preview",
+                    src: "royalretreat.jpg",
+                    alt: "The Royal Retreat Ranchi",
                     className: "w-full h-64 object-cover",
                   })
                 ),
+                // Details + map link
                 e(
                   "div",
-                  { className: "p-6 bg-white/3 rounded-xl" },
+                  {
+                    className:
+                      "p-6 bg-white/3 rounded-xl flex flex-col justify-between",
+                  },
                   e(
-                    "p",
-                    { className: "text-gray-200" },
-                    "Map and exact venue details will appear here when confirmed."
+                    "div",
+                    null,
+                    e(
+                      "p",
+                      { className: "text-gray-200" },
+                      e("strong", null, "The Royal Retreat"),
+                      " offers luxurious interiors, spacious lawns and banquet halls — a perfect venue for a grand farewell celebration."
+                    ),
+                    e(
+                      "p",
+                      { className: "text-sm text-gray-400 mt-3" },
+                      "Exact date and time will be finalized after planning. We will update this page and our Instagram once confirmed."
+                    )
                   ),
                   e(
-                    "p",
-                    { className: "text-sm text-gray-400 mt-4" },
-                    "If you want to suggest a venue or have questions, DM us on Instagram or use the contact details when posted."
+                    "a",
+                    {
+                      href: "https://www.google.com/maps/place/The+Royal+Retreat,+Ranchi,+Jharkhand/",
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      className:
+                        "mt-5 inline-block px-5 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition text-center",
+                    },
+                    "View on Google Maps"
                   )
                 )
               )
@@ -979,10 +1039,12 @@
 
     <!--
     NOTES:
-    1) Replace `header.jpg` in the same folder to show your banner as the hero background.
-    2) If you want background music, place an audio file named `music.mp3` in the same folder (or change the src value).
-       Autoplay may be blocked by browsers; the toggle starts playback after user interaction.
-    3) For production, consider building a proper React app with local bundling + optimized Tailwind CSS.
-    4) To change the Google Form or Instagram link, edit the `formLink` and `insta` constants inside the script.
+    1) Place these files in the same folder as index.html:
+       - header.jpg (your hero banner)
+       - logo.png (your small logo for header)
+       - royalretreat.jpg (venue photo)
+       - music.mp3 (optional; remove audio element near the end if unused)
+    2) To update the Google Form or Instagram, edit the formLink / insta constants inside the script.
+    3) If you want the menu to slide in from the right (drawer) instead of dropdown, tell me and I will update it.
   --></body>
 </html>
