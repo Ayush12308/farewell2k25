@@ -271,7 +271,7 @@
           setMobileMenuOpen(!mobileMenuOpen);
         }
         const organizers = [
-          { name: "Arnav Singh", insta: "offx.arnav" },
+          { name: "Arnav Singh", insta: "_exotic.arnv" },
           { name: "Saurya Singh Rajput", insta: "sauryaasingh_" },
           { name: "Archit Sahi", insta: "shahiarchit" },
           { name: "Ayush Kumar", insta: "aykumar8973" },
@@ -535,7 +535,7 @@
                     "a",
                     {
                       href: formLink,
-                      target: "_blank",
+                      target: "blank",
                       rel: "noopener noreferrer",
                       className:
                         "hero-cta inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition",
@@ -755,7 +755,11 @@
                 "p",
                 { className: "text-gray-300 mb-4 max-w-3xl" },
                 "The venue for Verve 2025 is ",
-                e("strong", { className: "text-verveGold" }, "To Be Decided"),
+                e(
+                  "strong",
+                  { className: "text-verveGold" },
+                  "To Be Decided"
+                ),
                 ". Date and time are also ",
                 e("strong", null, "To Be Decided"),
                 ", and updates will be posted here and on our official Instagram."
@@ -1005,8 +1009,8 @@
        - logo.png (header logo)
        - music.mp3 (optional; remove audio element near the end if unused)
     2) To update the Google Form or Instagram, edit the formLink / insta constants inside the script.
-    3) The organizers section now displays 9 cards with names and Instagram handles.
-    4) The venue section has been updated to "To Be Decided," with the photo removed and the map link set to "#".
+    3) The organizers section displays 9 cards, with the first organizer's Instagram handle updated to '_exotic.arnv'.
+    4) The venue section is set to "To Be Decided," with the photo removed and the map link set to "#".
     5) If you want the menu to slide in from the right (drawer) instead of dropdown, let me know, and I can update it.
     6) If you want to add photos for organizers (replacing the 👤 placeholder) or make further tweaks, let me know!
     -->
