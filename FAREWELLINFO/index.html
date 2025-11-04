@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VERVE 2025 — SBPS Class X Farewell</title>
+
+    <!-- Tailwind CDN (quick) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              verveNavy: "#071029",
+              verveGold: "#D4A84A",
+              vervePurple: "#7B5CF6",
+            },
+            fontFamily: {
+              display: ["Inter", "ui-sans-serif", "system-ui"],
+            },
+          },
+        },
+      };
+    </script>
+
+    <!-- React (production) -->
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    ></script>
+
+    <!-- GSAP for animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <style>
+      body {
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+          Roboto, "Helvetica Neue", Arial;
+        background: linear-gradient(180deg, #041022 0%, #06132b 100%);
+        color: #e6eef8;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* Hero background: replace header.jpg in same folder */
+      .hero-bg {
+        background-image: linear-gradient(
+            180deg,
+            rgba(7, 16, 41, 0.6),
+            rgba(7, 16, 41, 0.65)
+          ),
+          url("header.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* subtle glass */
+      .glass {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.03),
+          rgba(255, 255, 255, 0.02)
+        );
+        backdrop-filter: blur(6px);
+      }
+
+      /* rounded CTA */
+      .cta-glow {
+        box-shadow: 0 6px 30px rgba(123, 92, 246, 0.12),
+          0 2px 8px rgba(212, 168, 74, 0.08);
+      }
+
+      /* scroll-to-top button */
+      .scroll-btn {
+        transition: transform 0.18s ease;
+      }
+
+      /* slightly bigger base font on larger screens */
+      @media (min-width: 1024px) {
+        body {
+          font-size: 18px;
+        }
+      }
+
+      /* Mobile menu animation */
+      .mobile-menu {
+        transition: all 0.3s ease-in-out;
+      }
+
+      /* Organizer card hover effects */
+      .organizer-card {
+        transition: all 0.3s ease;
+      }
+
+      .organizer-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      }
+
+      /* small keyframes for menu */
+      @keyframes fadeSlide {
+        from {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/javascript">
+      const e = React.createElement;
+      const { useState, useEffect, useRef } = React;
+
+      function IconInstagram({ className = "w-5 h-5" }) {
+        return e(
+          "svg",
+          {
+            className,
+            viewBox: "0 0 24 24",
+            fill: "none",
+            xmlns: "http://www.w3.org/2000/svg",
+            "aria-hidden": "true",
+          },
+          e("path", {
+            d: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z",
+            stroke: "currentColor",
+            strokeWidth: 1.2,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+          }),
+          e("circle", {
+            cx: 12,
+            cy: 12,
+            r: 3.2,
+            stroke: "currentColor",
+            strokeWidth: 1.2,
+          }),
+          e("circle", { cx: 17.5, cy: 6.5, r: 0.6, fill: "currentColor" })
+        );
+      }
+
+      function IconArrowUp() {
+        return e(
+          "svg",
+          {
+            className: "w-5 h-5",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            xmlns: "http://www.w3.org/2000/svg",
+            "aria-hidden": "true",
+          },
+          e("path", {
+            d: "M5 15l7-9 7 9",
+            stroke: "currentColor",
+            strokeWidth: 1.6,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+            fill: "none",
+          })
+        );
+      }
+
+      function IconMenu() {
+        return e(
+          "svg",
+          {
+            className: "w-6 h-6",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            xmlns: "http://www.w3.org/2000/svg",
+            "aria-hidden": "true",
+          },
+          e("path", {
+            d: "M4 6h16M4 12h16M4 18h16",
+            stroke: "currentColor",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+          })
+        );
+      }
+
+      function IconClose() {
+        return e(
+          "svg",
+          {
+            className: "w-6 h-6",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            xmlns: "http://www.w3.org/2000/svg",
+            "aria-hidden": "true",
+          },
+          e("path", {
+            d: "M6 18L18 6M6 6l12 12",
+            stroke: "currentColor",
+            strokeWidth: 2,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+          })
+        );
+      }
+
+      function App() {
+        const formLink =
+          "https://docs.google.com/forms/d/e/1FAIpQLSeSw1_PZY-q0lnjhTkcS3XiL5_kVUvp0_W5VCnDTuLFNXSPGg/viewform?usp=dialog";
+        const insta = "https://instagram.com/farewell2k25_sbps";
+
+        const [showTop, setShowTop] = useState(false);
+        const [musicOn, setMusicOn] = useState(false);
+        const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+        const audioRef = useRef(null);
+
+        useEffect(() => {
+          // scroll listener for scroll-to-top
+          const handler = () => {
+            setShowTop(window.scrollY > 300);
+          };
+          window.addEventListener("scroll", handler);
+          return () => window.removeEventListener("scroll", handler);
+        }, []);
+
+        useEffect(() => {
+          // entrance animation for hero content
+          gsap.from(".hero-title", {
+            y: 30,
+            opacity: 0,
+            duration: 0.9,
+            ease: "bounce.out",
+            delay: 0.2,
+          });
+          gsap.from(".hero-sub", {
+            y: 18,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            delay: 0.35,
+          });
+          gsap.from(".hero-cta", {
+            scale: 0.95,
+            opacity: 0,
+            duration: 0.7,
+            ease: "back.out(1.2)",
+            delay: 0.5,
+          });
+          // reveal sections on scroll
+          if (gsap.utils && gsap.utils.toArray) {
+            try {
+              gsap.utils.toArray(".reveal").forEach((el, idx) => {
+                gsap.fromTo(
+                  el,
+                  { y: 24, opacity: 0 },
+                  {
+                    y: 0,
+                    opacity: 1,
+                    duration: 0.9,
+                    delay: idx * 0.12,
+                    scrollTrigger: {
+                      trigger: el,
+                      start: "top 85%",
+                    },
+                  }
+                );
+              });
+            } catch (err) {
+              // scrollTrigger not available in lightweight GSAP include, ignore
+            }
+          }
+        }, []);
+
+        function toggleMusic() {
+          if (!audioRef.current) return;
+          if (!musicOn) {
+            audioRef.current.play().catch(() => {
+              /* autoplay may be restricted; user will need to interact */
+            });
+            setMusicOn(true);
+          } else {
+            audioRef.current.pause();
+            setMusicOn(false);
+          }
+        }
+
+        function toggleMobileMenu() {
+          setMobileMenuOpen(!mobileMenuOpen);
+        }
+
+        return e(
+          "div",
+          { className: "min-h-screen" },
+          // NAV
+          e(
+            "header",
+            {
+              className:
+                "sticky top-0 z-50 glass backdrop-blur-sm border-b border-white/6",
+            },
+            e(
+              "div",
+              {
+                className:
+                  "container mx-auto px-6 py-3 flex items-center justify-between",
+              },
+              e(
+                "div",
+                { className: "flex items-center gap-3" },
+                // Logo image (logo.png) fallback to "V" if not present
+                e(
+                  "div",
+                  { className: "flex items-center gap-3" },
+                  e("img", {
+                    src: "logo.png",
+                    alt: "VERVE logo",
+                    onError: "this.style.display='none'", // hide img if not found (so 'V' shows)
+                    className:
+                      "w-12 h-12 rounded-full object-cover shadow-md hidden md:block",
+                  }),
+                  e(
+                    "div",
+                    {
+                      className:
+                        "w-12 h-12 rounded-full bg-gradient-to-br from-verveGold to-vervePurple flex items-center justify-center text-verveNavy font-extrabold text-lg shadow-md md:hidden",
+                    },
+                    "V"
+                  )
+                ),
+                e(
+                  "div",
+                  null,
+                  e(
+                    "div",
+                    { className: "text-sm font-semibold text-white" },
+                    "SBPS"
+                  ),
+                  e(
+                    "div",
+                    { className: "text-xs text-gray-300" },
+                    "VERVE 2025 — Class X Farewell"
+                  )
+                )
+              ),
+              e(
+                "nav",
+                {
+                  className:
+                    "hidden md:flex items-center gap-6 text-sm text-gray-200",
+                },
+                e(
+                  "a",
+                  { href: "#about", className: "hover:text-white transition" },
+                  "About"
+                ),
+                e(
+                  "a",
+                  {
+                    href: "#organizers",
+                    className: "hover:text-white transition",
+                  },
+                  "Organizers"
+                ),
+                e(
+                  "a",
+                  { href: "#venue", className: "hover:text-white transition" },
+                  "Venue"
+                ),
+                e(
+                  "a",
+                  {
+                    href: "#register",
+                    className: "hover:text-white transition",
+                  },
+                  "Register"
+                ),
+                e(
+                  "a",
+                  {
+                    href: insta,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className:
+                      "flex items-center gap-2 hover:text-white transition",
+                  },
+                  e(IconInstagram, null),
+                  e("span", { className: "text-xs" }, "@farewell2k25_sbps")
+                )
+              ),
+              e(
+                "div",
+                { className: "flex items-center gap-3" },
+                e(
+                  "button",
+                  {
+                    onClick: toggleMusic,
+                    title: "Toggle background music",
+                    className:
+                      "hidden md:block px-3 py-2 bg-white/6 rounded-full text-sm text-white hover:bg-white/8 transition cta-glow",
+                  },
+                  musicOn ? "Music: On" : "Music: Off"
+                ),
+                e(
+                  "a",
+                  {
+                    href: "#register",
+                    className:
+                      "hidden sm:inline-block px-4 py-2 bg-verveGold text-verveNavy rounded-full font-semibold shadow cta-glow hover:scale-105 transition hero-cta",
+                  },
+                  "Register (Free)"
+                ),
+                // Mobile menu button
+                e(
+                  "button",
+                  {
+                    onClick: toggleMobileMenu,
+                    className:
+                      "md:hidden p-2 rounded-md text-gray-200 hover:text-white hover:bg-white/5 transition",
+                  },
+                  mobileMenuOpen ? e(IconClose) : e(IconMenu)
+                )
+              )
+            ),
+            // Mobile menu
+            mobileMenuOpen &&
+              e(
+                "div",
+                {
+                  className:
+                    "md:hidden mobile-menu bg-verveNavy/95 backdrop-blur-md border-t border-white/6 py-4",
+                  style: { animation: "fadeSlide .28s ease" },
+                },
+                e(
+                  "div",
+                  { className: "container mx-auto px-6 flex flex-col gap-4" },
+                  e(
+                    "a",
+                    {
+                      href: "#about",
+                      className:
+                        "py-2 text-gray-200 hover:text-white transition",
+                      onClick: toggleMobileMenu,
+                    },
+                    "About"
+                  ),
+                  e(
+                    "a",
+                    {
+                      href: "#organizers",
+                      className:
+                        "py-2 text-gray-200 hover:text-white transition",
+                      onClick: toggleMobileMenu,
+                    },
+                    "Organizers"
+                  ),
+                  e(
+                    "a",
+                    {
+                      href: "#venue",
+                      className:
+                        "py-2 text-gray-200 hover:text-white transition",
+                      onClick: toggleMobileMenu,
+                    },
+                    "Venue"
+                  ),
+                  e(
+                    "a",
+                    {
+                      href: "#register",
+                      className:
+                        "py-2 text-gray-200 hover:text-white transition",
+                      onClick: toggleMobileMenu,
+                    },
+                    "Register"
+                  ),
+                  e(
+                    "a",
+                    {
+                      href: insta,
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      className:
+                        "py-2 flex items-center gap-2 text-gray-200 hover:text-white transition",
+                      onClick: toggleMobileMenu,
+                    },
+                    e(IconInstagram, null),
+                    e("span", null, "@farewell2k25_sbps")
+                  ),
+                  e(
+                    "button",
+                    {
+                      onClick: toggleMusic,
+                      className:
+                        "py-2 text-left text-gray-200 hover:text-white transition",
+                    },
+                    musicOn ? "Music: On" : "Music: Off"
+                  )
+                )
+              )
+          ),
+
+          // HERO
+          e(
+            "section",
+            { className: "hero-bg py-20 md:py-28" },
+            e(
+              "div",
+              {
+                className:
+                  "container mx-auto px-6 flex flex-col md:flex-row items-center gap-8",
+              },
+              e(
+                "div",
+                { className: "md:w-1/2 text-center md:text-left" },
+                e(
+                  "h1",
+                  {
+                    className:
+                      "hero-title text-5xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-lg",
+                  },
+                  "VERVE 2025"
+                ),
+                e(
+                  "p",
+                  {
+                    className:
+                      "hero-sub mt-3 text-xl md:text-2xl text-verveGold font-semibold",
+                  },
+                  "SBPS • Class X Farewell"
+                ),
+                e(
+                  "p",
+                  { className: "mt-4 text-gray-200 max-w-xl" },
+                  "Celebrating memories, creating moments — this is the official page for the SBPS Class X farewell. Registration is free now; payments, if any, will be requested only after confirmation of venue and team."
+                ),
+                e(
+                  "div",
+                  {
+                    className:
+                      "mt-6 flex flex-wrap gap-3 justify-center md:justify-start",
+                  },
+                  e(
+                    "a",
+                    {
+                      href: formLink,
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      className:
+                        "hero-cta inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition",
+                    },
+                    e(
+                      "svg",
+                      {
+                        className: "w-5 h-5",
+                        viewBox: "0 0 24 24",
+                        fill: "none",
+                      },
+                      e("path", {
+                        d: "M12 2v10",
+                        stroke: "#071029",
+                        strokeWidth: 1.6,
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                      }),
+                      e("path", {
+                        d: "M5 12l7 10 7-10",
+                        stroke: "#071029",
+                        strokeWidth: 1.6,
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                      })
+                    ),
+                    "Register for Free"
+                  ),
+                  e(
+                    "a",
+                    {
+                      href: "#about",
+                      className:
+                        "inline-flex items-center gap-2 px-4 py-3 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition",
+                    },
+                    "Learn More"
+                  )
+                )
+              ),
+              // Right stacked card for quick info
+              e(
+                "div",
+                { className: "md:w-1/2 flex justify-center" },
+                e(
+                  "div",
+                  {
+                    className:
+                      "w-full max-w-md glass rounded-2xl p-6 border border-white/6 shadow-xl reveal",
+                  },
+                  e(
+                    "div",
+                    { className: "flex items-center justify-between" },
+                    e(
+                      "div",
+                      null,
+                      e(
+                        "div",
+                        { className: "text-xs text-gray-300" },
+                        "Possible Venue Window"
+                      ),
+                      e(
+                        "div",
+                        { className: "text-lg font-semibold mt-1 text-white" },
+                        "Date: Revealing Soon"
+                      )
+                    ),
+                    e(
+                      "div",
+                      { className: "text-sm text-gray-200 text-right" },
+                      e("div", { className: "text-gray-300 text-xs" }, "Entry"),
+                      e(
+                        "div",
+                        { className: "text-verveGold font-bold text-lg" },
+                        "Free to Register"
+                      )
+                    )
+                  ),
+                  e(
+                    "p",
+                    { className: "mt-4 text-sm text-gray-300" },
+                    "We will confirm venue and date soon . No payment now. Registrations help us to plan and book the venue accordingly."
+                  )
+                )
+              )
+            )
+          ),
+
+          // Main content
+          e(
+            "main",
+            { className: "container mx-auto px-6 py-12" },
+
+            // ABOUT
+            e(
+              "section",
+              { id: "about", className: "mb-12 reveal" },
+              e(
+                "h2",
+                {
+                  className:
+                    "text-3xl md:text-4xl font-extrabold text-white mb-3",
+                },
+                "About VERVE — Official Page"
+              ),
+              e(
+                "p",
+                { className: "text-gray-300 text-lg max-w-3xl" },
+                "This is the ",
+                e(
+                  "strong",
+                  { className: "text-verveGold" },
+                  "official and trusted page"
+                ),
+                " for VERVE — the Farewell event for SBPS Class X (2025). Because many users were thinking that this is a misleading page, we don't want to defame other pages or force anyone we are just trying our best to provide a memorable farewell , we want to be fully transparent: ",
+                e(
+                  "strong",
+                  { className: "text-white" },
+                  "no payments will be taken through this page."
+                ),
+                " Registration through the Google Form is ",
+                e("strong", null, "free"),
+                ". We will only request payment later after confirming venue, date, and revealing organizers; payment requests will be announced here and via the official Instagram."
+              ),
+              e(
+                "ul",
+                {
+                  className:
+                    "mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl",
+                },
+                e(
+                  "li",
+                  { className: "p-3 bg-white/3 rounded-lg" },
+                  "• Register now for free to help estimate numbers and book a venue accordingly to provide a better experience."
+                ),
+                e(
+                  "li",
+                  { className: "p-3 bg-white/3 rounded-lg" },
+                  "• We aim to secure a fair per-person price; early numbers help negotiations."
+                ),
+                e(
+                  "li",
+                  { className: "p-3 bg-white/3 rounded-lg" },
+                  "• All official communication will be posted here and on our Instagram."
+                ),
+                e(
+                  "li",
+                  { className: "p-3 bg-white/3 rounded-lg" },
+                  "• Final payment, if any, will be requested only after public confirmation."
+                )
+              )
+            ),
+
+            // ORGANIZERS
+            e(
+              "section",
+              { id: "organizers", className: "mb-12 reveal" },
+              e(
+                "h3",
+                { className: "text-2xl font-bold mb-4" },
+                "Organizing Team"
+              ),
+              e(
+                "p",
+                { className: "text-gray-300 mb-6 max-w-2xl" },
+                "Meet the core team — photos and full bios will be revealed soon to guarantee transparency and accountability."
+              ),
+              e(
+                "div",
+                {
+                  className:
+                    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6",
+                },
+                [1, 2, 3, 4].map((i) =>
+                  e(
+                    "div",
+                    {
+                      key: i,
+                      className:
+                        "organizer-card bg-white/4 p-6 rounded-2xl flex flex-col items-center text-center hover:translate-y-1 transition transform border border-white/5",
+                    },
+                    e(
+                      "div",
+                      {
+                        className:
+                          "w-28 h-28 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center text-3xl font-bold text-white mb-4 relative overflow-hidden",
+                      },
+                      e("div", {
+                        className:
+                          "absolute inset-0 bg-gradient-to-br from-verveGold/20 to-vervePurple/20",
+                      }),
+                      "👤"
+                    ),
+                    e(
+                      "div",
+                      { className: "text-lg font-semibold" },
+                      `Organizer ${i}`
+                    ),
+                    e(
+                      "div",
+                      { className: "text-sm text-gray-300 mt-2" },
+                      "Revealing soon"
+                    ),
+                    e("div", {
+                      className:
+                        "mt-3 w-full h-1 bg-gradient-to-r from-verveGold to-vervePurple rounded-full",
+                    })
+                  )
+                )
+              )
+            ),
+
+            // VENUE (UPDATED: The Royal Retreat)
+            e(
+              "section",
+              { id: "venue", className: "mb-12 reveal" },
+              e(
+                "h3",
+                { className: "text-2xl font-bold mb-4" },
+                "Venue · Date · Time"
+              ),
+              e(
+                "p",
+                { className: "text-gray-300 mb-4 max-w-3xl" },
+                "We’re thrilled to announce that our farewell will be hosted at ",
+                e(
+                  "strong",
+                  { className: "text-verveGold" },
+                  "The Royal Retreat, Ranchi"
+                ),
+                " — one of the city’s most elegant event destinations. Date and time are ",
+                e("strong", null, "To Be Decided"),
+                ", and updates will be posted here and on our official Instagram."
+              ),
+              e(
+                "div",
+                { className: "grid grid-cols-1 md:grid-cols-2 gap-6" },
+                // Image card
+                e(
+                  "div",
+                  {
+                    className:
+                      "rounded-xl overflow-hidden border border-white/6",
+                  },
+                  e("img", {
+                    src: "royalretreat.jpg",
+                    alt: "The Royal Retreat Ranchi",
+                    className: "w-full h-64 object-cover",
+                  })
+                ),
+                // Details + map link
+                e(
+                  "div",
+                  {
+                    className:
+                      "p-6 bg-white/3 rounded-xl flex flex-col justify-between",
+                  },
+                  e(
+                    "div",
+                    null,
+                    e(
+                      "p",
+                      { className: "text-gray-200" },
+                      e("strong", null, "The Royal Retreat"),
+                      " offers luxurious interiors, spacious lawns and banquet halls — a perfect venue for a grand farewell celebration."
+                    ),
+                    e(
+                      "p",
+                      { className: "text-sm text-gray-400 mt-3" },
+                      "Exact date and time will be finalized after planning. We will update this page and our Instagram once confirmed."
+                    )
+                  ),
+                  e(
+                    "a",
+                    {
+                      href: "https://www.google.com/maps/place/The+Royal+Retreat,+Ranchi,+Jharkhand/",
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      className:
+                        "mt-5 inline-block px-5 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition text-center",
+                    },
+                    "View on Google Maps"
+                  )
+                )
+              )
+            ),
+
+            // REGISTER
+            e(
+              "section",
+              { id: "register", className: "mb-12 reveal" },
+              e(
+                "div",
+                {
+                  className:
+                    "flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-2xl bg-gradient-to-br from-white/4 to-transparent border border-white/6",
+                },
+                e(
+                  "div",
+                  null,
+                  e(
+                    "h3",
+                    { className: "text-2xl font-bold" },
+                    "Register Now — It's Free"
+                  ),
+                  e(
+                    "p",
+                    { className: "text-gray-300 mt-2 max-w-xl" },
+                    "By registering now you help us estimate numbers so we can get a better price per person and book venue accordingly to give a best experience as possible. No money is requested at registration; you will be informed publicly when and how to pay if required."
+                  )
+                ),
+                e(
+                  "div",
+                  null,
+                  e(
+                    "a",
+                    {
+                      href: formLink,
+                      target: "_blank",
+                      rel: "noopener noreferrer",
+                      className:
+                        "inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition",
+                    },
+                    e(
+                      "svg",
+                      {
+                        className: "w-5 h-5",
+                        viewBox: "0 0 24 24",
+                        fill: "none",
+                      },
+                      e("path", {
+                        d: "M12 2v10",
+                        stroke: "#071029",
+                        strokeWidth: 1.6,
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                      }),
+                      e("path", {
+                        d: "M5 12l7 10 7-10",
+                        stroke: "#071029",
+                        strokeWidth: 1.6,
+                        strokeLinecap: "round",
+                        strokeLinejoin: "round",
+                      })
+                    ),
+                    "Open Registration Form"
+                  )
+                )
+              )
+            ),
+
+            // GALLERY
+            e(
+              "section",
+              { className: "mb-12 reveal" },
+              e(
+                "h3",
+                { className: "text-2xl font-bold mb-4" },
+                "Gallery / Moments"
+              ),
+              e(
+                "div",
+                {
+                  className:
+                    "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3",
+                },
+                Array.from({ length: 6 }).map((_, i) =>
+                  e(
+                    "div",
+                    {
+                      key: i,
+                      className:
+                        "w-full aspect-[4/3] rounded-lg overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-400",
+                    },
+                    "Photo"
+                  )
+                )
+              )
+            )
+          ),
+
+          // FOOTER
+          e(
+            "footer",
+            { className: "border-t border-white/6 py-6" },
+            e(
+              "div",
+              {
+                className:
+                  "container mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6",
+              },
+              e(
+                "div",
+                null,
+                e(
+                  "div",
+                  { className: "text-sm text-gray-300" },
+                  "© VERVE 2025 — SBPS Class X. Official registration page."
+                ),
+                e(
+                  "div",
+                  { className: "text-xs text-gray-400 mt-1" },
+                  "This page is maintained by the Verve Organizing Team — transparency & trust are our priority."
+                )
+              ),
+              e(
+                "div",
+                { className: "flex items-center gap-4" },
+                e(
+                  "a",
+                  {
+                    href: insta,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className:
+                      "flex items-center gap-2 text-gray-200 hover:text-white",
+                  },
+                  e(IconInstagram, { className: "w-6 h-6" }),
+                  e("span", { className: "text-sm" }, "@farewell2k25_sbps")
+                ),
+                e(
+                  "a",
+                  {
+                    href: formLink,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "text-sm text-gray-300 hover:text-white",
+                  },
+                  "Open Registration Form"
+                )
+              )
+            )
+          ),
+
+          // Floating register button
+          e(
+            "a",
+            {
+              href: formLink,
+              target: "_blank",
+              rel: "noopener noreferrer",
+              className:
+                "fixed left-6 bottom-6 z-40 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-vervePurple text-white shadow-2xl hover:scale-105 transition cta-glow",
+            },
+            e(
+              "svg",
+              { className: "w-5 h-5", viewBox: "0 0 24 24", fill: "none" },
+              e("path", {
+                d: "M12 2v10",
+                stroke: "#fff",
+                strokeWidth: 1.6,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+              }),
+              e("path", {
+                d: "M5 12l7 10 7-10",
+                stroke: "#fff",
+                strokeWidth: 1.6,
+                strokeLinecap: "round",
+                strokeLinejoin: "round",
+              })
+            ),
+            "Register"
+          ),
+
+          // Scroll-to-top
+          showTop &&
+            e(
+              "button",
+              {
+                onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
+                className:
+                  "fixed right-6 bottom-20 z-50 bg-verveGold text-verveNavy p-3 rounded-full shadow-xl scroll-btn",
+              },
+              e(IconArrowUp)
+            ),
+
+          // Hidden audio element (replace music.mp3 with your file name)
+          e("audio", { ref: audioRef, src: "music.mp3", loop: true })
+        );
+      }
+
+      ReactDOM.createRoot(document.getElementById("root")).render(
+        React.createElement(App)
+      );
+    </script>
+
+    <!--
+    NOTES:
+    1) Place these files in the same folder as index.html:
+       - header.jpg (your hero banner)
+       - logo.png (your small logo for header)
+       - royalretreat.jpg (venue photo)
+       - music.mp3 (optional; remove audio element near the end if unused)
+    2) To update the Google Form or Instagram, edit the formLink / insta constants inside the script.
+    3) If you want the menu to slide in from the right (drawer) instead of dropdown, tell me and I will update it.
+  --></body>
+</html>
