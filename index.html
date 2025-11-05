@@ -273,13 +273,14 @@
         const organizers = [
           { name: "Arnav Singh", insta: "_exotic.arnv" },
           { name: "Saurya Singh Rajput", insta: "sauryaasingh_" },
-          { name: "Archit Shahi", insta: "shahiarchit" },
+          { name: "Archit Sahi", insta: "shahiarchit" },
           { name: "Ayush Kumar", insta: "aykumar8973" },
-          { name: "Uttam Kr Matho", insta: "_uttam_.__" },
+          { name: "Uttam Kr. Matho", insta: "_uttam_.__" },
           { name: "Krishna Ranjan Saha", insta: "krishnaaa_sahha" },
-          { name: "Ansh Saree Nah", insta: "anshsareenag" },
+          { name: "Ansh Saree Nag", insta: "anshsareenag" },
           { name: "Tanmay Kumar", insta: "sanatani_tanmay" },
           { name: "Shubham Mandal", insta: "pvt.shubhxxm" },
+          { name: "New Organizer", insta: "neworganizer" },
         ];
         return e(
           "div",
@@ -535,7 +536,7 @@
                     "a",
                     {
                       href: formLink,
-                      target: "blank",
+                      target: "_blank",
                       rel: "noopener noreferrer",
                       className:
                         "hero-cta inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition",
@@ -685,7 +686,7 @@
                 )
               )
             ),
-            // ORGANIZERS (Updated with 9 cards)
+            // ORGANIZERS (Updated with 10 cards)
             e(
               "section",
               { id: "organizers", className: "mb-12 reveal" },
@@ -703,7 +704,7 @@
                 "div",
                 {
                   className:
-                    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6",
+                    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6",
                 },
                 organizers.map((org, i) =>
                   e(
@@ -742,7 +743,7 @@
                 )
               )
             ),
-            // VENUE (Updated: To Be Decided)
+            // VENUE (To Be Decided)
             e(
               "section",
               { id: "venue", className: "mb-12 reveal" },
@@ -1009,13 +1010,10 @@
        - logo.png (header logo)
        - music.mp3 (optional; remove audio element near the end if unused)
     2) To update the Google Form or Instagram, edit the formLink / insta constants inside the script.
-    3) The organizers section displays 9 cards, with the first organizer's Instagram handle updated to '_exotic.arnv'.
+    3) The organizers section now displays 10 cards, with the 10th organizer as a placeholder ("New Organizer", "neworganizer"). Update it with the actual name and Instagram handle.
     4) The venue section is set to "To Be Decided," with the photo removed and the map link set to "#".
     5) If you want the menu to slide in from the right (drawer) instead of dropdown, let me know, and I can update it.
     6) If you want to add photos for organizers (replacing the 👤 placeholder) or make further tweaks, let me know!
     -->
   </body>
 </html>
-
-
-
