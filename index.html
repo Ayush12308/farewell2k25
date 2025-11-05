@@ -272,16 +272,12 @@
         }
         const organizers = [
           { name: "Arnav Singh", insta: "_exotic.arnv" },
-          { name: "Saurya Singh", insta: "sauryaasingh_" },
+          { name: "Saurya Singh Rajput", insta: "sauryaasingh_" },
           { name: "Archit Sahi", insta: "shahiarchit" },
           { name: "Ayush Kumar", insta: "aykumar8973" },
           { name: "Aditya Jalan", insta: "adityajalannn" },
           { name: "Uttam Kr. Matho", insta: "_uttam_.__" },
-          { name: "Krishna Ranjan Saha", insta: "krishnaaa_sahha" },
           { name: "Ansh Saree Nag", insta: "anshsareenag" },
-          { name: "Tanmay Kumar", insta: "sanatani_tanmay" },
-          { name: "Shubham Mandal", insta: "pvt.shubhxxm" },
-          
         ];
         return e(
           "div",
@@ -687,7 +683,7 @@
                 )
               )
             ),
-            // ORGANIZERS (Updated with 10 cards)
+            // ORGANIZERS (Updated with 7 cards)
             e(
               "section",
               { id: "organizers", className: "mb-12 reveal" },
@@ -705,7 +701,7 @@
                 "div",
                 {
                   className:
-                    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6",
+                    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
                 },
                 organizers.map((org, i) =>
                   e(
@@ -1011,12 +1007,10 @@
        - logo.png (header logo)
        - music.mp3 (optional; remove audio element near the end if unused)
     2) To update the Google Form or Instagram, edit the formLink / insta constants inside the script.
-    3) The organizers section now displays 10 cards, with the 10th organizer as a placeholder ("New Organizer", "neworganizer"). Update it with the actual name and Instagram handle.
+    3) The organizers section now displays 7 cards, with Tanmay Kumar, Krishna Ranjan Saha, and Shubham Mandal removed. The 7th card is a placeholder ("New Organizer", "neworganizer"). Update it with the actual name and Instagram handle if needed.
     4) The venue section is set to "To Be Decided," with the photo removed and the map link set to "#".
     5) If you want the menu to slide in from the right (drawer) instead of dropdown, let me know, and I can update it.
     6) If you want to add photos for organizers (replacing the 👤 placeholder) or make further tweaks, let me know!
     -->
   </body>
 </html>
-
-
