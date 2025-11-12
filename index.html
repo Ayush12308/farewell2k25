@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>VERVE 2025 — SBPS Class X Farewell</title>
-    <!-- Tailwind CDN (quick) -->
+    <title>Verve 2025 — Class X Farewell</title>
+    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -14,14 +14,24 @@
               verveNavy: "#071029",
               verveGold: "#D4A84A",
               vervePurple: "#7B5CF6",
+              verveTeal: "#2DD4BF", // New accent for buttons/highlights
             },
             fontFamily: {
-              display: ["Inter", "ui-sans-serif", "system-ui"],
+              display: ["Poppins", "Inter", "ui-sans-serif", "system-ui"],
+              body: ["Inter", "ui-sans-serif", "system-ui"],
+            },
+            boxShadow: {
+              glow: "0 0 20px rgba(123, 92, 246, 0.2), 0 0 10px rgba(212, 168, 74, 0.15)",
             },
           },
         },
       };
     </script>
+    <!-- Poppins font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- React (production) -->
     <script
       crossorigin
@@ -42,54 +52,78 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
-      /* Hero background: replace header.jpg in same folder */
+      h1,
+      h2,
+      h3 {
+        font-family: Poppins, Inter, ui-sans-serif, system-ui;
+      }
+      /* Hero background with subtle parallax */
       .hero-bg {
         background-image: linear-gradient(
             180deg,
-            rgba(7, 16, 41, 0.6),
-            rgba(7, 16, 41, 0.65)
+            rgba(7, 16, 41, 0.7),
+            rgba(7, 16, 41, 0.75)
           ),
-          url("header.jpg");
+          url("headerNew.jpg");
         background-size: cover;
         background-position: center;
+        background-attachment: fixed; /* Parallax effect */
       }
-      /* subtle glass */
+      /* Enhanced glassmorphism */
       .glass {
         background: linear-gradient(
-          180deg,
-          rgba(255, 255, 255, 0.03),
-          rgba(255, 255, 255, 0.02)
+          135deg,
+          rgba(255, 255, 255, 0.05),
+          rgba(255, 255, 255, 0.03)
         );
-        backdrop-filter: blur(6px);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
-      /* rounded CTA */
+      /* Refined CTA buttons */
       .cta-glow {
-        box-shadow: 0 6px 30px rgba(123, 92, 246, 0.12),
-          0 2px 8px rgba(212, 168, 74, 0.08);
+        box-shadow: 0 0 20px rgba(123, 92, 246, 0.3),
+          0 0 10px rgba(212, 168, 74, 0.2);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
-      /* scroll-to-top button */
+      .cta-glow:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(123, 92, 246, 0.4),
+          0 0 15px rgba(212, 168, 74, 0.3);
+      }
+      /* Scroll-to-top button */
       .scroll-btn {
-        transition: transform 0.18s ease;
+        transition: transform 0.2s ease, opacity 0.3s ease;
       }
-      /* slightly bigger base font on larger screens */
+      .scroll-btn:hover {
+        transform: scale(1.1);
+      }
+      /* Larger font on desktop */
       @media (min-width: 1024px) {
         body {
           font-size: 18px;
+        }
+        h1 {
+          font-size: 4.5rem;
+        }
+        h2 {
+          font-size: 2.5rem;
         }
       }
       /* Mobile menu animation */
       .mobile-menu {
         transition: all 0.3s ease-in-out;
       }
-      /* Organizer card hover effects */
-      .organizer-card {
-        transition: all 0.3s ease;
+      /* Section fade-in */
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
       }
-      .organizer-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+      .reveal.visible {
+        opacity: 1;
+        transform: translateY(0);
       }
-      /* small keyframes for menu */
+      /* Keyframes for menu */
       @keyframes fadeSlide {
         from {
           opacity: 0;
@@ -201,7 +235,7 @@
         const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
         const audioRef = useRef(null);
         useEffect(() => {
-          // scroll listener for scroll-to-top
+          // Scroll listener for scroll-to-top
           const handler = () => {
             setShowTop(window.scrollY > 300);
           };
@@ -209,7 +243,7 @@
           return () => window.removeEventListener("scroll", handler);
         }, []);
         useEffect(() => {
-          // entrance animation for hero content
+          // Hero animations
           gsap.from(".hero-title", {
             y: 30,
             opacity: 0,
@@ -231,35 +265,30 @@
             ease: "back.out(1.2)",
             delay: 0.5,
           });
-          // reveal sections on scroll
-          if (gsap.utils && gsap.utils.toArray) {
-            try {
-              gsap.utils.toArray(".reveal").forEach((el, idx) => {
-                gsap.fromTo(
-                  el,
-                  { y: 24, opacity: 0 },
-                  {
-                    y: 0,
-                    opacity: 1,
-                    duration: 0.9,
-                    delay: idx * 0.12,
-                    scrollTrigger: {
-                      trigger: el,
-                      start: "top 85%",
-                    },
-                  }
-                );
-              });
-            } catch (err) {
-              // scrollTrigger not available in lightweight GSAP include, ignore
-            }
-          }
+          // Section reveal animations
+          const reveals = document.querySelectorAll(".reveal");
+          reveals.forEach((el) => {
+            gsap.fromTo(
+              el,
+              { opacity: 0, y: 20 },
+              {
+                opacity: 1,
+                y: 0,
+                duration: 0.6,
+                ease: "power2.out",
+                scrollTrigger: {
+                  trigger: el,
+                  start: "top 85%",
+                },
+              }
+            );
+          });
         }, []);
         function toggleMusic() {
           if (!audioRef.current) return;
           if (!musicOn) {
             audioRef.current.play().catch(() => {
-              /* autoplay may be restricted; user will need to interact */
+              /* Autoplay restricted */
             });
             setMusicOn(true);
           } else {
@@ -270,15 +299,6 @@
         function toggleMobileMenu() {
           setMobileMenuOpen(!mobileMenuOpen);
         }
-        const organizers = [
-          { name: "Arnav Singh", insta: "_exotic.arnv" },
-          { name: "Saurya Singh", insta: "sauryaasingh_" },
-          { name: "Archit Shahi", insta: "shahiarchit" },
-          { name: "Ayush Kumar", insta: "aykumar8973" },
-          { name: "Aditya Jalan", insta: "adityajalannn" },
-          { name: "Uttam Kr. Matho", insta: "_uttam_.__" },
-          { name: "Ansh Saree Nag", insta: "anshsareenag" },
-        ];
         return e(
           "div",
           { className: "min-h-screen" },
@@ -287,33 +307,32 @@
             "header",
             {
               className:
-                "sticky top-0 z-50 glass backdrop-blur-sm border-b border-white/6",
+                "sticky top-0 z-50 glass backdrop-blur-lg border-b border-white/10",
             },
             e(
               "div",
               {
                 className:
-                  "container mx-auto px-6 py-3 flex items-center justify-between",
+                  "container mx-auto px-6 py-4 flex items-center justify-between",
               },
               e(
                 "div",
-                { className: "flex items-center gap-3" },
-                // Logo image (logo.png) fallback to "V" if not present
+                { className: "flex items-center gap-4" },
                 e(
                   "div",
                   { className: "flex items-center gap-3" },
                   e("img", {
-                    src: "logo.png",
-                    alt: "VERVE logo",
-                    onError: "this.style.display='none'", // hide img if not found (so 'V' shows)
+                    src: "logoNew.png",
+                    alt: "Verve logo",
+                    onError: "this.style.display='none'",
                     className:
-                      "w-12 h-12 rounded-full object-cover shadow-md hidden md:block",
+                      "w-14 h-14 rounded-full object-cover shadow-lg hidden md:block",
                   }),
                   e(
                     "div",
                     {
                       className:
-                        "w-12 h-12 rounded-full bg-gradient-to-br from-verveGold to-vervePurple flex items-center justify-center text-verveNavy font-extrabold text-lg shadow-md md:hidden",
+                        "w-14 h-14 rounded-full bg-gradient-to-br from-verveGold to-vervePurple flex items-center justify-center text-verveNavy font-extrabold text-xl shadow-lg md:hidden",
                     },
                     "V"
                   )
@@ -323,13 +342,13 @@
                   null,
                   e(
                     "div",
-                    { className: "text-sm font-semibold text-white" },
-                    "SBPS"
+                    { className: "text-base font-bold text-white" },
+                    "Verve"
                   ),
                   e(
                     "div",
-                    { className: "text-xs text-gray-300" },
-                    "VERVE 2025 — Class X Farewell"
+                    { className: "text-sm text-gray-300" },
+                    "Verve 2025 — Class X Farewell"
                   )
                 )
               ),
@@ -337,20 +356,12 @@
                 "nav",
                 {
                   className:
-                    "hidden md:flex items-center gap-6 text-sm text-gray-200",
+                    "hidden md:flex items-center gap-8 text-base text-gray-200",
                 },
                 e(
                   "a",
                   { href: "#about", className: "hover:text-white transition" },
                   "About"
-                ),
-                e(
-                  "a",
-                  {
-                    href: "#organizers",
-                    className: "hover:text-white transition",
-                  },
-                  "Organizers"
                 ),
                 e(
                   "a",
@@ -374,20 +385,20 @@
                     className:
                       "flex items-center gap-2 hover:text-white transition",
                   },
-                  e(IconInstagram, null),
-                  e("span", { className: "text-xs" }, "@farewell2k25_sbps")
+                  e(IconInstagram, { className: "w-6 h-6" }),
+                  e("span", { className: "text-sm" }, "@farewell2k25_sbps")
                 )
               ),
               e(
                 "div",
-                { className: "flex items-center gap-3" },
+                { className: "flex items-center gap-4" },
                 e(
                   "button",
                   {
                     onClick: toggleMusic,
                     title: "Toggle background music",
                     className:
-                      "hidden md:block px-3 py-2 bg-white/6 rounded-full text-sm text-white hover:bg-white/8 transition cta-glow",
+                      "hidden md:block px-4 py-2 bg-white/10 rounded-full text-sm text-white hover:bg-white/15 transition cta-glow",
                   },
                   musicOn ? "Music: On" : "Music: Off"
                 ),
@@ -396,17 +407,16 @@
                   {
                     href: "#register",
                     className:
-                      "hidden sm:inline-block px-4 py-2 bg-verveGold text-verveNavy rounded-full font-semibold shadow cta-glow hover:scale-105 transition hero-cta",
+                      "hidden sm:inline-block px-5 py-2 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition",
                   },
                   "Register (Free)"
                 ),
-                // Mobile menu button
                 e(
                   "button",
                   {
                     onClick: toggleMobileMenu,
                     className:
-                      "md:hidden p-2 rounded-md text-gray-200 hover:text-white hover:bg-white/5 transition",
+                      "md:hidden p-2 rounded-lg text-gray-200 hover:text-white hover:bg-white/10 transition",
                   },
                   mobileMenuOpen ? e(IconClose) : e(IconMenu)
                 )
@@ -418,18 +428,18 @@
                 "div",
                 {
                   className:
-                    "md:hidden mobile-menu bg-verveNavy/95 backdrop-blur-md border-t border-white/6 py-4",
-                  style: { animation: "fadeSlide .28s ease" },
+                    "md:hidden mobile-menu bg-verveNavy/95 backdrop-blur-lg border-t border-white/10 py-6",
+                  style: { animation: "fadeSlide .3s ease" },
                 },
                 e(
                   "div",
-                  { className: "container mx-auto px-6 flex flex-col gap-4" },
+                  { className: "container mx-auto px-6 flex flex-col gap-5" },
                   e(
                     "a",
                     {
                       href: "#about",
                       className:
-                        "py-2 text-gray-200 hover:text-white transition",
+                        "py-2 text-lg text-gray-200 hover:text-white transition",
                       onClick: toggleMobileMenu,
                     },
                     "About"
@@ -437,19 +447,9 @@
                   e(
                     "a",
                     {
-                      href: "#organizers",
-                      className:
-                        "py-2 text-gray-200 hover:text-white transition",
-                      onClick: toggleMobileMenu,
-                    },
-                    "Organizers"
-                  ),
-                  e(
-                    "a",
-                    {
                       href: "#venue",
                       className:
-                        "py-2 text-gray-200 hover:text-white transition",
+                        "py-2 text-lg text-gray-200 hover:text-white transition",
                       onClick: toggleMobileMenu,
                     },
                     "Venue"
@@ -459,7 +459,7 @@
                     {
                       href: "#register",
                       className:
-                        "py-2 text-gray-200 hover:text-white transition",
+                        "py-2 text-lg text-gray-200 hover:text-white transition",
                       onClick: toggleMobileMenu,
                     },
                     "Register"
@@ -471,10 +471,10 @@
                       target: "_blank",
                       rel: "noopener noreferrer",
                       className:
-                        "py-2 flex items-center gap-2 text-gray-200 hover:text-white transition",
+                        "py-2 flex items-center gap-3 text-lg text-gray-200 hover:text-white transition",
                       onClick: toggleMobileMenu,
                     },
-                    e(IconInstagram, null),
+                    e(IconInstagram, { className: "w-6 h-6" }),
                     e("span", null, "@farewell2k25_sbps")
                   ),
                   e(
@@ -482,7 +482,7 @@
                     {
                       onClick: toggleMusic,
                       className:
-                        "py-2 text-left text-gray-200 hover:text-white transition",
+                        "py-2 text-left text-lg text-gray-200 hover:text-white transition",
                     },
                     musicOn ? "Music: On" : "Music: Off"
                   )
@@ -492,12 +492,12 @@
           // HERO
           e(
             "section",
-            { className: "hero-bg py-20 md:py-28" },
+            { className: "hero-bg py-24 md:py-32" },
             e(
               "div",
               {
                 className:
-                  "container mx-auto px-6 flex flex-col md:flex-row items-center gap-8",
+                  "container mx-auto px-6 flex flex-col md:flex-row items-center gap-12",
               },
               e(
                 "div",
@@ -506,28 +506,31 @@
                   "h1",
                   {
                     className:
-                      "hero-title text-5xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-lg",
+                      "hero-title text-5xl md:text-6xl font-extrabold leading-tight text-white drop-shadow-xl",
                   },
-                  "VERVE 2025"
+                  "Verve 2025"
                 ),
                 e(
                   "p",
                   {
                     className:
-                      "hero-sub mt-3 text-xl md:text-2xl text-verveGold font-semibold",
+                      "hero-sub mt-4 text-xl md:text-2xl text-verveGold font-semibold",
                   },
-                  "SBPS • Class X Farewell"
+                  "Verve • Class X Farewell"
                 ),
                 e(
                   "p",
-                  { className: "mt-4 text-gray-200 max-w-xl" },
-                  "Celebrating memories, creating moments — this is the official page for the SBPS Class X farewell. Registration is free now; payments, if any, will be requested only after confirmation of venue and team."
+                  {
+                    className:
+                      "mt-6 text-lg text-gray-200 max-w-xl mx-auto md:mx-0",
+                  },
+                  "Celebrating memories, creating moments — this is the official page for the Verve Class X farewell. Registration is free now; payments, if any, will be requested only after confirmation of venue and team."
                 ),
                 e(
                   "div",
                   {
                     className:
-                      "mt-6 flex flex-wrap gap-3 justify-center md:justify-start",
+                      "mt-8 flex flex-wrap gap-4 justify-center md:justify-start",
                   },
                   e(
                     "a",
@@ -536,12 +539,12 @@
                       target: "_blank",
                       rel: "noopener noreferrer",
                       className:
-                        "hero-cta inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition",
+                        "hero-cta inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-xl cta-glow hover:scale-105 transition",
                     },
                     e(
                       "svg",
                       {
-                        className: "w-5 h-5",
+                        className: "w-6 h-6",
                         viewBox: "0 0 24 24",
                         fill: "none",
                       },
@@ -567,13 +570,12 @@
                     {
                       href: "#about",
                       className:
-                        "inline-flex items-center gap-2 px-4 py-3 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition",
+                        "inline-flex items-center gap-3 px-6 py-4 border border-white/15 rounded-full text-base text-gray-200 hover:bg-white/10 transition cta-glow",
                     },
                     "Learn More"
                   )
                 )
               ),
-              // Right stacked card for quick info
               e(
                 "div",
                 { className: "md:w-1/2 flex justify-center" },
@@ -581,7 +583,7 @@
                   "div",
                   {
                     className:
-                      "w-full max-w-md glass rounded-2xl p-6 border border-white/6 shadow-xl reveal",
+                      "w-full max-w-md glass rounded-3xl p-8 border border-white/10 shadow-2xl reveal",
                   },
                   e(
                     "div",
@@ -591,29 +593,29 @@
                       null,
                       e(
                         "div",
-                        { className: "text-xs text-gray-300" },
+                        { className: "text-sm text-gray-300" },
                         "Possible Venue Window"
                       ),
                       e(
                         "div",
-                        { className: "text-lg font-semibold mt-1 text-white" },
+                        { className: "text-xl font-semibold mt-2 text-white" },
                         "Date: Revealing Soon"
                       )
                     ),
                     e(
                       "div",
-                      { className: "text-sm text-gray-200 text-right" },
-                      e("div", { className: "text-gray-300 text-xs" }, "Entry"),
+                      { className: "text-base text-gray-200 text-right" },
+                      e("div", { className: "text-gray-300 text-sm" }, "Entry"),
                       e(
                         "div",
-                        { className: "text-verveGold font-bold text-lg" },
+                        { className: "text-verveGold font-bold text-xl" },
                         "Free to Register"
                       )
                     )
                   ),
                   e(
                     "p",
-                    { className: "mt-4 text-sm text-gray-300" },
+                    { className: "mt-6 text-base text-gray-300" },
                     "We will confirm venue and date soon. No payment now. Registrations help us to plan and book the venue accordingly."
                   )
                 )
@@ -623,29 +625,32 @@
           // Main content
           e(
             "main",
-            { className: "container mx-auto px-6 py-12" },
+            { className: "container mx-auto px-6 py-16" },
             // ABOUT
             e(
               "section",
-              { id: "about", className: "mb-12 reveal" },
+              { id: "about", className: "mb-16 reveal" },
               e(
                 "h2",
                 {
                   className:
-                    "text-3xl md:text-4xl font-extrabold text-white mb-3",
+                    "text-4xl md:text-5xl font-bold text-white mb-6 text-center",
                 },
-                "About VERVE — Official Page"
+                "About Verve — Official Page"
               ),
               e(
                 "p",
-                { className: "text-gray-300 text-lg max-w-3xl" },
+                {
+                  className:
+                    "text-lg text-gray-200 max-w-3xl mx-auto text-center",
+                },
                 "This is the ",
                 e(
                   "strong",
                   { className: "text-verveGold" },
                   "official and trusted page"
                 ),
-                " for VERVE — the Farewell event for SBPS Class X (2025). Because many users were thinking that this is a misleading page, we don't want to defame other pages or force anyone we are just trying our best to provide a memorable farewell, we want to be fully transparent: ",
+                " for Verve — the Farewell event for Verve Class X (2025). Because many users were thinking that this is a misleading page, we don't want to defame other pages or force anyone we are just trying our best to provide a memorable farewell, we want to be fully transparent: ",
                 e(
                   "strong",
                   { className: "text-white" },
@@ -659,139 +664,79 @@
                 "ul",
                 {
                   className:
-                    "mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-3xl",
+                    "mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-4xl mx-auto",
                 },
                 e(
                   "li",
-                  { className: "p-3 bg-white/3 rounded-lg" },
+                  { className: "p-4 bg-white/5 rounded-xl glass" },
                   "• Register now for free to help estimate numbers and book a venue accordingly to provide a better experience."
                 ),
                 e(
                   "li",
-                  { className: "p-3 bg-white/3 rounded-lg" },
+                  { className: "p-4 bg-white/5 rounded-xl glass" },
                   "• We aim to secure a fair per-person price; early numbers help negotiations."
                 ),
                 e(
                   "li",
-                  { className: "p-3 bg-white/3 rounded-lg" },
+                  { className: "p-4 bg-white/5 rounded-xl glass" },
                   "• All official communication will be posted here and on our Instagram."
                 ),
                 e(
                   "li",
-                  { className: "p-3 bg-white/3 rounded-lg" },
+                  { className: "p-4 bg-white/5 rounded-xl glass" },
                   "• Final payment, if any, will be requested only after public confirmation."
                 )
               )
             ),
-            // ORGANIZERS (Updated with 7 cards)
+            // VENUE
             e(
               "section",
-              { id: "organizers", className: "mb-12 reveal" },
+              { id: "venue", className: "mb-16 reveal" },
               e(
                 "h3",
-                { className: "text-2xl font-bold mb-4" },
-                "Organizing Team"
-              ),
-              e(
-                "p",
-                { className: "text-gray-300 mb-6 max-w-2xl" },
-                "Meet the core organizing team behind Verve 2025 — the energy, coordination, and creativity that will make this farewell unforgettable."
-              ),
-              e(
-                "div",
-                {
-                  className:
-                    "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6",
-                },
-                organizers.map((org, i) =>
-                  e(
-                    "div",
-                    {
-                      key: i,
-                      className:
-                        "organizer-card bg-white/4 p-6 rounded-2xl flex flex-col items-center text-center border border-white/5 hover:shadow-lg",
-                    },
-                    e(
-                      "div",
-                      {
-                        className:
-                          "w-28 h-28 rounded-full bg-gradient-to-br from-gray-700 to-gray-600 flex items-center justify-center text-3xl font-bold text-white mb-4 shadow",
-                      },
-                      "👤"
-                    ),
-                    e("div", { className: "text-lg font-semibold" }, org.name),
-                    e(
-                      "a",
-                      {
-                        href: `https://instagram.com/${org.insta}`,
-                        target: "_blank",
-                        rel: "noopener noreferrer",
-                        className:
-                          "mt-2 text-sm text-verveGold hover:text-vervePurple transition flex items-center gap-1",
-                      },
-                      e(IconInstagram, { className: "w-4 h-4" }),
-                      `@${org.insta}`
-                    ),
-                    e("div", {
-                      className:
-                        "mt-3 w-full h-1 bg-gradient-to-r from-verveGold to-vervePurple rounded-full",
-                    })
-                  )
-                )
-              )
-            ),
-            // VENUE (To Be Decided)
-            e(
-              "section",
-              { id: "venue", className: "mb-12 reveal" },
-              e(
-                "h3",
-                { className: "text-2xl font-bold mb-4" },
+                { className: "text-3xl font-bold mb-6 text-center" },
                 "Venue · Date · Time"
               ),
               e(
                 "p",
-                { className: "text-gray-300 mb-4 max-w-3xl" },
+                {
+                  className:
+                    "text-lg text-gray-200 mb-6 max-w-3xl mx-auto text-center",
+                },
                 "The venue for Verve 2025 is ",
-                e(
-                  "strong",
-                  { className: "text-verveGold" },
-                  "To Be Decided"
-                ),
+                e("strong", { className: "text-verveGold" }, "To Be Decided"),
                 ". Date and time are also ",
                 e("strong", null, "To Be Decided"),
                 ", and updates will be posted here and on our official Instagram."
               ),
               e(
                 "div",
-                { className: "grid grid-cols-1 md:grid-cols-2 gap-6" },
-                // Placeholder div to maintain layout (replacing image)
+                { className: "grid grid-cols-1 md:grid-cols-2 gap-8" },
                 e(
                   "div",
                   {
                     className:
-                      "rounded-xl overflow-hidden border border-white/6 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-400",
+                      "rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-300 text-lg glass",
                   },
                   "Venue Image Coming Soon"
                 ),
-                // Details + placeholder link
                 e(
                   "div",
                   {
                     className:
-                      "p-6 bg-white/3 rounded-xl flex flex-col justify-between",
+                      "p-8 bg-white/5 rounded-2xl flex flex-col justify-between glass",
                   },
                   e(
                     "div",
                     null,
                     e(
                       "p",
-                      { className: "text-gray-200" },
+                      { className: "text-lg text-gray-200" },
                       "The venue will be announced soon. We’re working to secure a location that suits the grandeur of our farewell celebration."
                     ),
                     e(
                       "p",
-                      { className: "text-sm text-gray-400 mt-3" },
+                      { className: "text-base text-gray-400 mt-4" },
                       "Exact date, time, and venue will be finalized after planning. We will update this page and our Instagram once confirmed."
                     )
                   ),
@@ -800,7 +745,7 @@
                     {
                       href: "#",
                       className:
-                        "mt-5 inline-block px-5 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg hover:scale-105 transition text-center",
+                        "mt-6 inline-block px-6 py-3 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition text-center",
                     },
                     "Venue Details Coming Soon"
                   )
@@ -810,24 +755,29 @@
             // REGISTER
             e(
               "section",
-              { id: "register", className: "mb-12 reveal" },
+              { id: "register", className: "mb-16 reveal" },
               e(
                 "div",
                 {
                   className:
-                    "flex flex-col md:flex-row items-center justify-between gap-6 p-6 rounded-2xl bg-gradient-to-br from-white/4 to-transparent border border-white/6",
+                    "flex flex-col md:flex-row items-center justify-between gap-8 p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 glass",
                 },
                 e(
                   "div",
                   null,
                   e(
                     "h3",
-                    { className: "text-2xl font-bold" },
+                    {
+                      className: "text-3xl font-bold text-center md:text-left",
+                    },
                     "Register Now — It's Free"
                   ),
                   e(
                     "p",
-                    { className: "text-gray-300 mt-2 max-w-xl" },
+                    {
+                      className:
+                        "text-lg text-gray-200 mt-4 max-w-xl text-center md:text-left",
+                    },
                     "By registering now you help us estimate numbers so we can get a better price per person and book venue accordingly to give a best experience as possible. No money is requested at registration; you will be informed publicly when and how to pay if required."
                   )
                 ),
@@ -841,12 +791,12 @@
                       target: "_blank",
                       rel: "noopener noreferrer",
                       className:
-                        "inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-verveGold to-vervePurple text-verveNavy rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition",
+                        "inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-xl cta-glow hover:scale-105 transition",
                     },
                     e(
                       "svg",
                       {
-                        className: "w-5 h-5",
+                        className: "w-6 h-6",
                         viewBox: "0 0 24 24",
                         fill: "none",
                       },
@@ -873,17 +823,17 @@
             // GALLERY
             e(
               "section",
-              { className: "mb-12 reveal" },
+              { className: "mb-16 reveal" },
               e(
                 "h3",
-                { className: "text-2xl font-bold mb-4" },
+                { className: "text-3xl font-bold mb-6 text-center" },
                 "Gallery / Moments"
               ),
               e(
                 "div",
                 {
                   className:
-                    "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3",
+                    "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4",
                 },
                 Array.from({ length: 6 }).map((_, i) =>
                   e(
@@ -891,7 +841,7 @@
                     {
                       key: i,
                       className:
-                        "w-full aspect-[4/3] rounded-lg overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-400",
+                        "w-full aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-300 glass",
                     },
                     "Photo"
                   )
@@ -902,7 +852,9 @@
           // FOOTER
           e(
             "footer",
-            { className: "border-t border-white/6 py-6" },
+            {
+              className: "border-t border-white/10 py-8 bg-verveNavy/50 glass",
+            },
             e(
               "div",
               {
@@ -914,18 +866,18 @@
                 null,
                 e(
                   "div",
-                  { className: "text-sm text-gray-300" },
-                  "© VERVE 2025 — SBPS Class X. Official registration page."
+                  { className: "text-base text-gray-200" },
+                  "© Verve 2025 — Class X. Official registration page."
                 ),
                 e(
                   "div",
-                  { className: "text-xs text-gray-400 mt-1" },
+                  { className: "text-sm text-gray-400 mt-2" },
                   "This page is maintained by the Verve Organizing Team — transparency & trust are our priority."
                 )
               ),
               e(
                 "div",
-                { className: "flex items-center gap-4" },
+                { className: "flex items-center gap-6" },
                 e(
                   "a",
                   {
@@ -933,10 +885,10 @@
                     target: "_blank",
                     rel: "noopener noreferrer",
                     className:
-                      "flex items-center gap-2 text-gray-200 hover:text-white",
+                      "flex items-center gap-3 text-gray-200 hover:text-white transition",
                   },
-                  e(IconInstagram, { className: "w-6 h-6" }),
-                  e("span", { className: "text-sm" }, "@farewell2k25_sbps")
+                  e(IconInstagram, { className: "w-7 h-7" }),
+                  e("span", { className: "text-base" }, "@farewell2k25_sbps")
                 ),
                 e(
                   "a",
@@ -944,7 +896,8 @@
                     href: formLink,
                     target: "_blank",
                     rel: "noopener noreferrer",
-                    className: "text-sm text-gray-300 hover:text-white",
+                    className:
+                      "text-base text-gray-200 hover:text-white transition",
                   },
                   "Open Registration Form"
                 )
@@ -959,11 +912,11 @@
               target: "_blank",
               rel: "noopener noreferrer",
               className:
-                "fixed left-6 bottom-6 z-40 inline-flex items-center gap-3 px-5 py-3 rounded-full bg-vervePurple text-white shadow-2xl hover:scale-105 transition cta-glow",
+                "fixed left-6 bottom-6 z-40 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-br from-vervePurple to-verveTeal text-white shadow-2xl cta-glow hover:scale-105 transition",
             },
             e(
               "svg",
-              { className: "w-5 h-5", viewBox: "0 0 24 24", fill: "none" },
+              { className: "w-6 h-6", viewBox: "0 0 24 24", fill: "none" },
               e("path", {
                 d: "M12 2v10",
                 stroke: "#fff",
@@ -988,11 +941,11 @@
               {
                 onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
                 className:
-                  "fixed right-6 bottom-20 z-50 bg-verveGold text-verveNavy p-3 rounded-full shadow-xl scroll-btn",
+                  "fixed right-6 bottom-24 z-50 bg-verveGold text-verveNavy p-4 rounded-full shadow-xl scroll-btn cta-glow",
               },
               e(IconArrowUp)
             ),
-          // Hidden audio element (replace music.mp3 with your file name)
+          // Hidden audio element
           e("audio", { ref: audioRef, src: "music.mp3", loop: true })
         );
       }
@@ -1005,14 +958,12 @@
     1) Place these files in the same folder as index.html:
        - header.jpg (hero banner)
        - logo.png (header logo)
-       - music.mp3 (optional; remove audio element near the end if unused)
-    2) To update the Google Form or Instagram, edit the formLink / insta constants inside the script.
-    3) The organizers section now displays 7 cards, with Tanmay Kumar, Krishna Ranjan Saha, and Shubham Mandal removed. The 7th card is a placeholder ("New Organizer", "neworganizer"). Update it with the actual name and Instagram handle if needed.
-    4) The venue section is set to "To Be Decided," with the photo removed and the map link set to "#".
-    5) If you want the menu to slide in from the right (drawer) instead of dropdown, let me know, and I can update it.
-    6) If you want to add photos for organizers (replacing the 👤 placeholder) or make further tweaks, let me know!
+       - music.mp3 (optional; remove audio element if unused)
+    2) To update the Google Form or Instagram, edit the formLink / insta constants.
+    3) All references to "SBPS" have been replaced with "Verve".
+    4) The organizers section has been removed, and navigation links updated.
+    5) Design enhancements include Poppins font, verveTeal accent, refined glassmorphism, parallax hero, and smoother animations.
+    6) If you want to add photos for the gallery or further customize the design, let me know!
     -->
   </body>
 </html>
-
-
