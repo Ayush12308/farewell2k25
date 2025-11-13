@@ -14,7 +14,7 @@
               verveNavy: "#071029",
               verveGold: "#D4A84A",
               vervePurple: "#7B5CF6",
-              verveTeal: "#2DD4BF", // New accent for buttons/highlights
+              verveTeal: "#2DD4BF",
             },
             fontFamily: {
               display: ["Poppins", "Inter", "ui-sans-serif", "system-ui"],
@@ -57,7 +57,6 @@
       h3 {
         font-family: Poppins, Inter, ui-sans-serif, system-ui;
       }
-      /* Hero background with subtle parallax */
       .hero-bg {
         background-image: linear-gradient(
             180deg,
@@ -67,9 +66,8 @@
           url("headerNew.jpg");
         background-size: cover;
         background-position: center;
-        background-attachment: fixed; /* Parallax effect */
+        background-attachment: fixed;
       }
-      /* Enhanced glassmorphism */
       .glass {
         background: linear-gradient(
           135deg,
@@ -79,7 +77,6 @@
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.1);
       }
-      /* Refined CTA buttons */
       .cta-glow {
         box-shadow: 0 0 20px rgba(123, 92, 246, 0.3),
           0 0 10px rgba(212, 168, 74, 0.2);
@@ -90,14 +87,12 @@
         box-shadow: 0 0 30px rgba(123, 92, 246, 0.4),
           0 0 15px rgba(212, 168, 74, 0.3);
       }
-      /* Scroll-to-top button */
       .scroll-btn {
         transition: transform 0.2s ease, opacity 0.3s ease;
       }
       .scroll-btn:hover {
         transform: scale(1.1);
       }
-      /* Larger font on desktop */
       @media (min-width: 1024px) {
         body {
           font-size: 18px;
@@ -109,11 +104,9 @@
           font-size: 2.5rem;
         }
       }
-      /* Mobile menu animation */
       .mobile-menu {
         transition: all 0.3s ease-in-out;
       }
-      /* Section fade-in */
       .reveal {
         opacity: 0;
         transform: translateY(20px);
@@ -123,7 +116,6 @@
         opacity: 1;
         transform: translateY(0);
       }
-      /* Keyframes for menu */
       @keyframes fadeSlide {
         from {
           opacity: 0;
@@ -226,16 +218,44 @@
           })
         );
       }
+      function IconMap() {
+        return e(
+          "svg",
+          {
+            className: "w-6 h-6",
+            viewBox: "0 0 24 24",
+            fill: "none",
+            xmlns: "http://www.w3.org/2000/svg",
+            "aria-hidden": "true",
+          },
+          e("path", {
+            d: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z",
+            stroke: "currentColor",
+            strokeWidth: 1.6,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+          }),
+          e("circle", {
+            cx: 12,
+            cy: 10,
+            r: 3,
+            stroke: "currentColor",
+            strokeWidth: 1.6,
+            strokeLinecap: "round",
+            strokeLinejoin: "round",
+          })
+        );
+      }
       function App() {
         const formLink =
           "https://docs.google.com/forms/d/e/1FAIpQLSeSw1_PZY-q0lnjhTkcS3XiL5_kVUvp0_W5VCnDTuLFNXSPGg/viewform?usp=dialog";
         const insta = "https://instagram.com/farewell2k25_verve";
+        const mapsLink = "https://maps.app.goo.gl/7ageuUKAGHfaB3LP9";
         const [showTop, setShowTop] = useState(false);
         const [musicOn, setMusicOn] = useState(false);
         const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
         const audioRef = useRef(null);
         useEffect(() => {
-          // Scroll listener for scroll-to-top
           const handler = () => {
             setShowTop(window.scrollY > 300);
           };
@@ -243,7 +263,6 @@
           return () => window.removeEventListener("scroll", handler);
         }, []);
         useEffect(() => {
-          // Hero animations
           gsap.from(".hero-title", {
             y: 30,
             opacity: 0,
@@ -265,7 +284,6 @@
             ease: "back.out(1.2)",
             delay: 0.5,
           });
-          // Section reveal animations
           const reveals = document.querySelectorAll(".reveal");
           reveals.forEach((el) => {
             gsap.fromTo(
@@ -287,9 +305,7 @@
         function toggleMusic() {
           if (!audioRef.current) return;
           if (!musicOn) {
-            audioRef.current.play().catch(() => {
-              /* Autoplay restricted */
-            });
+            audioRef.current.play().catch(() => {});
             setMusicOn(true);
           } else {
             audioRef.current.pause();
@@ -399,6 +415,7 @@
                     title: "Toggle background music",
                     className:
                       "hidden md:block px-4 py-2 bg-white/10 rounded-full text-sm text-white hover:bg-white/15 transition cta-glow",
+                    "aria-label": musicOn ? "Turn off music" : "Turn on music",
                   },
                   musicOn ? "Music: On" : "Music: Off"
                 ),
@@ -408,6 +425,7 @@
                     href: "#register",
                     className:
                       "hidden sm:inline-block px-5 py-2 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition",
+                    "aria-label": "Register for free",
                   },
                   "Register (Free)"
                 ),
@@ -417,12 +435,12 @@
                     onClick: toggleMobileMenu,
                     className:
                       "md:hidden p-2 rounded-lg text-gray-200 hover:text-white hover:bg-white/10 transition",
+                    "aria-label": mobileMenuOpen ? "Close menu" : "Open menu",
                   },
                   mobileMenuOpen ? e(IconClose) : e(IconMenu)
                 )
               )
             ),
-            // Mobile menu
             mobileMenuOpen &&
               e(
                 "div",
@@ -483,6 +501,9 @@
                       onClick: toggleMusic,
                       className:
                         "py-2 text-left text-lg text-gray-200 hover:text-white transition",
+                      "aria-label": musicOn
+                        ? "Turn off music"
+                        : "Turn on music",
                     },
                     musicOn ? "Music: On" : "Music: Off"
                   )
@@ -524,7 +545,7 @@
                     className:
                       "mt-6 text-lg text-gray-200 max-w-xl mx-auto md:mx-0",
                   },
-                  "Celebrating memories, creating moments — this is the official page for the Verve Class X farewell. Registration is free now; payments, if any, will be requested only after confirmation of venue and team."
+                  "Celebrating memories, creating moments — join us at The Royal Retreat on December 6, 2025, from 12 PM onwards. Registration is free now; offline payments will be announced soon."
                 ),
                 e(
                   "div",
@@ -540,6 +561,7 @@
                       rel: "noopener noreferrer",
                       className:
                         "hero-cta inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-xl cta-glow hover:scale-105 transition",
+                      "aria-label": "Register for free",
                     },
                     e(
                       "svg",
@@ -571,6 +593,7 @@
                       href: "#about",
                       className:
                         "inline-flex items-center gap-3 px-6 py-4 border border-white/15 rounded-full text-base text-gray-200 hover:bg-white/10 transition cta-glow",
+                      "aria-label": "Learn more about Verve",
                     },
                     "Learn More"
                   )
@@ -594,12 +617,20 @@
                       e(
                         "div",
                         { className: "text-sm text-gray-300" },
-                        "Possible Venue Window"
+                        "Confirmed Venue"
                       ),
                       e(
                         "div",
-                        { className: "text-xl font-semibold mt-2 text-white" },
-                        "Date: Revealing Soon"
+                        {
+                          className:
+                            "text-2xl md:text-3xl font-bold mt-2 text-verveGold",
+                        },
+                        "The Royal Retreat"
+                      ),
+                      e(
+                        "div",
+                        { className: "text-base text-gray-200 mt-1" },
+                        "December 6, 2025 (Saturday), 12 PM onwards"
                       )
                     ),
                     e(
@@ -616,7 +647,7 @@
                   e(
                     "p",
                     { className: "mt-6 text-base text-gray-300" },
-                    "We will confirm venue and date soon. No payment now. Registrations help us to plan and book the venue accordingly."
+                    "More details and offline payment information coming soon. Register now to secure your spot!"
                   )
                 )
               )
@@ -650,15 +681,26 @@
                   { className: "text-verveGold" },
                   "official and trusted page"
                 ),
-                " for Verve — the Farewell event for Verve Class X (2025). Because many users were thinking that this is a misleading page, we don't want to defame other pages or force anyone we are just trying our best to provide a memorable farewell, we want to be fully transparent: ",
+                " for Verve — the Farewell event for Verve Class X (2025), organized by students. To ensure transparency: ",
                 e(
                   "strong",
                   { className: "text-white" },
-                  "no payments will be taken through this page."
+                  "no payments are taken through this page."
                 ),
-                " Registration through the Google Form is ",
+                " Registration via the Google Form is ",
                 e("strong", null, "free"),
-                ". We will only request payment later after confirming venue, date, and revealing organizers; payment requests will be announced here and via the official Instagram."
+                ". Offline payment details will be announced in 2-3 days, shared here and on our Instagram ",
+                e(
+                  "a",
+                  {
+                    href: insta,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className: "text-verveGold underline",
+                  },
+                  "@farewell2k25_verve"
+                ),
+                "."
               ),
               e(
                 "ul",
@@ -669,22 +711,22 @@
                 e(
                   "li",
                   { className: "p-4 bg-white/5 rounded-xl glass" },
-                  "• Register now for free to help estimate numbers and book a venue accordingly to provide a better experience."
+                  "• Register now for free to secure your pass for The Royal Retreat."
                 ),
                 e(
                   "li",
                   { className: "p-4 bg-white/5 rounded-xl glass" },
-                  "• We aim to secure a fair per-person price; early numbers help negotiations."
+                  "• Early registration helps us plan a memorable farewell."
                 ),
                 e(
                   "li",
                   { className: "p-4 bg-white/5 rounded-xl glass" },
-                  "• All official communication will be posted here and on our Instagram."
+                  "• Official updates, including passes, shared on Instagram."
                 ),
                 e(
                   "li",
                   { className: "p-4 bg-white/5 rounded-xl glass" },
-                  "• Final payment, if any, will be requested only after public confirmation."
+                  "• Offline payments will be requested after confirmation."
                 )
               )
             ),
@@ -695,7 +737,7 @@
               e(
                 "h3",
                 { className: "text-3xl font-bold mb-6 text-center" },
-                "Venue · Date · Time"
+                "Venue · Date · Details"
               ),
               e(
                 "p",
@@ -703,11 +745,15 @@
                   className:
                     "text-lg text-gray-200 mb-6 max-w-3xl mx-auto text-center",
                 },
-                "The venue for Verve 2025 is ",
-                e("strong", { className: "text-verveGold" }, "To Be Decided"),
-                ". Date and time are also ",
-                e("strong", null, "To Be Decided"),
-                ", and updates will be posted here and on our official Instagram."
+                "Join us at ",
+                e(
+                  "strong",
+                  { className: "text-verveGold" },
+                  "The Royal Retreat"
+                ),
+                " on ",
+                e("strong", null, "December 6, 2025 (Saturday), 12 PM onwards"),
+                ". More details, including menu and attractions, will be revealed in 2-3 days on this page and our Instagram."
               ),
               e(
                 "div",
@@ -716,9 +762,15 @@
                   "div",
                   {
                     className:
-                      "rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-300 text-lg glass",
+                      "rounded-2xl overflow-hidden border border-white/10",
                   },
-                  "Venue Image Coming Soon"
+                  e("img", {
+                    src: "royal_retreat.jpg",
+                    alt: "The Royal Retreat",
+                    className: "w-full h-full object-cover",
+                    onError:
+                      "this.src='https://via.placeholder.com/600x400?text=Venue+Image'",
+                  })
                 ),
                 e(
                   "div",
@@ -732,22 +784,55 @@
                     e(
                       "p",
                       { className: "text-lg text-gray-200" },
-                      "The venue will be announced soon. We’re working to secure a location that suits the grandeur of our farewell celebration."
+                      "The Royal Retreat will host our grand farewell with a menu featuring vegetarian and non-vegetarian dishes, non-alcoholic beverages. More exciting details coming soon!"
                     ),
                     e(
                       "p",
                       { className: "text-base text-gray-400 mt-4" },
-                      "Exact date, time, and venue will be finalized after planning. We will update this page and our Instagram once confirmed."
+                      "Offline payment details will be announced in 2-3 days. Follow us on Instagram for updates."
+                    ),
+                    e(
+                      "div",
+                      { className: "mt-4 flex items-center gap-4" },
+                      e(
+                        "span",
+                        { className: "text-sm text-gray-300" },
+                        "In partnership with:"
+                      ),
+                      e("img", {
+                        src: "event_guru_logo.png",
+                        alt: "Event Guru Logo",
+                        className: "h-16 object-contain",
+                        onError: "this.style.display='none'",
+                      })
                     )
                   ),
                   e(
-                    "a",
-                    {
-                      href: "#",
-                      className:
-                        "mt-6 inline-block px-6 py-3 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition text-center",
-                    },
-                    "Venue Details Coming Soon"
+                    "div",
+                    { className: "mt-6 flex flex-wrap gap-4" },
+                    e(
+                      "a",
+                      {
+                        href: mapsLink,
+                        target: "_blank",
+                        rel: "noopener noreferrer",
+                        className:
+                          "inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-vervePurple to-verveTeal text-white rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition",
+                        "aria-label": "View The Royal Retreat on Google Maps",
+                      },
+                      e(IconMap, { className: "w-6 h-6" }),
+                      "View on Google Maps"
+                    ),
+                    e(
+                      "a",
+                      {
+                        href: "#",
+                        className:
+                          "inline-flex items-center gap-3 px-6 py-3 border border-white/15 rounded-full text-gray-200 hover:bg-white/10 transition cta-glow",
+                        "aria-label": "More details coming soon",
+                      },
+                      "More Details Soon"
+                    )
                   )
                 )
               )
@@ -760,91 +845,73 @@
                 "div",
                 {
                   className:
-                    "flex flex-col md:flex-row items-center justify-between gap-8 p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 glass",
+                    "p-8 rounded-3xl bg-gradient-to-br from-white/5 to-transparent border border-white/10 glass text-center",
                 },
                 e(
-                  "div",
-                  null,
-                  e(
-                    "h3",
-                    {
-                      className: "text-3xl font-bold text-center md:text-left",
-                    },
-                    "Register Now — It's Free"
-                  ),
-                  e(
-                    "p",
-                    {
-                      className:
-                        "text-lg text-gray-200 mt-4 max-w-xl text-center md:text-left",
-                    },
-                    "By registering now you help us estimate numbers so we can get a better price per person and book venue accordingly to give a best experience as possible. No money is requested at registration; you will be informed publicly when and how to pay if required."
-                  )
+                  "h3",
+                  {
+                    className:
+                      "text-3xl md:text-4xl font-bold text-verveGold mb-4",
+                  },
+                  "Final Call to Register!"
                 ),
                 e(
-                  "div",
-                  null,
+                  "p",
+                  {
+                    className: "text-lg text-gray-200 max-w-2xl mx-auto mb-6",
+                  },
+                  "Be a part of the grand Class X farewell at ",
                   e(
-                    "a",
-                    {
-                      href: formLink,
-                      target: "_blank",
-                      rel: "noopener noreferrer",
-                      className:
-                        "inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-xl cta-glow hover:scale-105 transition",
-                    },
-                    e(
-                      "svg",
-                      {
-                        className: "w-6 h-6",
-                        viewBox: "0 0 24 24",
-                        fill: "none",
-                      },
-                      e("path", {
-                        d: "M12 2v10",
-                        stroke: "#071029",
-                        strokeWidth: 1.6,
-                        strokeLinecap: "round",
-                        strokeLinejoin: "round",
-                      }),
-                      e("path", {
-                        d: "M5 12l7 10 7-10",
-                        stroke: "#071029",
-                        strokeWidth: 1.6,
-                        strokeLinecap: "round",
-                        strokeLinejoin: "round",
-                      })
-                    ),
-                    "Open Registration Form"
-                  )
-                )
-              )
-            ),
-            // GALLERY
-            e(
-              "section",
-              { className: "mb-16 reveal" },
-              e(
-                "h3",
-                { className: "text-3xl font-bold mb-6 text-center" },
-                "Gallery / Moments"
-              ),
-              e(
-                "div",
-                {
-                  className:
-                    "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4",
-                },
-                Array.from({ length: 6 }).map((_, i) =>
+                    "strong",
+                    { className: "text-verveGold" },
+                    "The Royal Retreat"
+                  ),
+                  " on December 6, 2025, starting at 12 PM. Those who have registered will receive their ",
+                  e("strong", null, "exclusive event passes"),
+                  " and major details, including the full menu and exciting attractions, in just 2-3 days. If you haven’t registered yet, ",
+                  e("strong", { className: "text-verveGold" }, "act now"),
+                  " to secure your spot for this unforgettable celebration filled with delicious food and memorable moments."
+                ),
+                e(
+                  "p",
+                  {
+                    className: "text-base text-gray-300 max-w-2xl mx-auto mb-6",
+                  },
+                  "Registration is completely free and takes only a minute through our secure Google Form. Your early registration helps us plan a seamless experience, ensuring we have enough space and resources for everyone. Offline payment details, if required, will be shared transparently soon after final confirmations."
+                ),
+                e(
+                  "a",
+                  {
+                    href: formLink,
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                    className:
+                      "inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-verveGold to-verveTeal text-verveNavy rounded-full font-semibold shadow-xl cta-glow hover:scale-105 transition",
+                    "aria-label": "Open registration form",
+                  },
                   e(
-                    "div",
+                    "svg",
                     {
-                      key: i,
-                      className:
-                        "w-full aspect-[4/3] rounded-xl overflow-hidden bg-gradient-to-br from-gray-700 to-gray-800 flex items-center justify-center text-gray-300 glass",
+                      className: "w-6 h-6",
+                      viewBox: "0 0 24 24",
+                      fill: "none",
                     },
-                    "Photo"
-                  )
+                    e("path", {
+                      d: "M12 2v10",
+                      stroke: "#071029",
+                      strokeWidth: 1.6,
+                      strokeLinecap: "round",
+                      strokeLinejoin: "round",
+                    }),
+                    e("path", {
+                      d: "M5 12l7 10 7-10",
+                      stroke: "#071029",
+                      strokeWidth: 1.6,
+                      strokeLinecap: "round",
+                      strokeLinejoin: "round",
+                    })
+                  ),
+                  "Open Registration Form"
                 )
               )
             )
@@ -872,7 +939,7 @@
                 e(
                   "div",
                   { className: "text-sm text-gray-400 mt-2" },
-                  "This page is maintained by the Verve Organizing Team — transparency & trust are our priority."
+                  "Student-organized by the Verve Team with Event Guru. Transparency & trust are our priority."
                 )
               ),
               e(
@@ -886,6 +953,7 @@
                     rel: "noopener noreferrer",
                     className:
                       "flex items-center gap-3 text-gray-200 hover:text-white transition",
+                    "aria-label": "Follow us on Instagram",
                   },
                   e(IconInstagram, { className: "w-7 h-7" }),
                   e("span", { className: "text-base" }, "@farewell2k25_verve")
@@ -898,6 +966,7 @@
                     rel: "noopener noreferrer",
                     className:
                       "text-base text-gray-200 hover:text-white transition",
+                    "aria-label": "Open registration form",
                   },
                   "Open Registration Form"
                 )
@@ -913,6 +982,7 @@
               rel: "noopener noreferrer",
               className:
                 "fixed left-6 bottom-6 z-40 inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-br from-vervePurple to-verveTeal text-white shadow-2xl cta-glow hover:scale-105 transition",
+              "aria-label": "Register for free",
             },
             e(
               "svg",
@@ -942,6 +1012,7 @@
                 onClick: () => window.scrollTo({ top: 0, behavior: "smooth" }),
                 className:
                   "fixed right-6 bottom-24 z-50 bg-verveGold text-verveNavy p-4 rounded-full shadow-xl scroll-btn cta-glow",
+                "aria-label": "Scroll to top",
               },
               e(IconArrowUp)
             ),
@@ -958,13 +1029,17 @@
     1) Place these files in the same folder as index.html:
        - headerNew.jpg (hero banner)
        - logoNew.png (header logo)
+       - royal_retreat.jpg (venue image)
+       - event_guru_logo.png (partner logo, size h-16)
        - music.mp3 (optional; remove audio element if unused)
-    2) To update the Google Form or Instagram, edit the formLink / insta constants.
-    3) All references to "SBPS" have been replaced with "Verve".
-    4) The organizers section has been removed, and navigation links updated.
-    5) Instagram handle updated from @farewell2k25_sbps to @farewell2k25_verve in navigation, mobile menu, and footer.
-    6) Design enhancements include Poppins font, verveTeal accent, refined glassmorphism, parallax hero, and smoother animations.
-    7) If you want to add photos for the gallery or further customize the design, let me know!
+    2) Google Maps link is set to https://maps.app.goo.gl/7ageuUKAGHfaB3LP9.
+    3) Instagram handle is @farewell2k25_verve.
+    4) Only hero, about, venue, and register sections are included (gallery removed).
+    5) Final Call section updated: "Registered attendees" changed to "Those who have registered" for simpler English.
+    6) Event Guru logo remains at h-16; all other content unchanged.
+    7) Time is 12 PM onwards; no DJ/drone references; details in 2-3 days.
+    8) Added ARIA labels for accessibility.
+    9) If you need further tweaks, specific content changes, or design adjustments, let me know!
     -->
   </body>
 </html>
