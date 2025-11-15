@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Verve 2025 — Class X Farewell</title>
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -250,7 +250,7 @@
         const formLink =
           "https://docs.google.com/forms/d/e/1FAIpQLSeSw1_PZY-q0lnjhTkcS3XiL5_kVUvp0_W5VCnDTuLFNXSPGg/viewform?usp=dialog";
         const insta = "https://instagram.com/farewell2k25_verve";
-        const mapsLink = "https://maps.app.goo.gl/7ageuUKAGHfaB3LP9";
+        const mapsLink = "https://maps.app.goo.gl/7rbA21Wj1EsBEjBU7";
         const [showTop, setShowTop] = useState(false);
         const [musicOn, setMusicOn] = useState(false);
         const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -545,7 +545,7 @@
                     className:
                       "mt-6 text-lg text-gray-200 max-w-xl mx-auto md:mx-0",
                   },
-                  "Celebrating memories, creating moments — join us at The Royal Retreat on December 6, 2025, from 12 PM onwards. Registration is free now; offline payments will be announced soon."
+                  "Celebrating memories, creating moments — join us at Loop Ranchi on December 6, 2025, from 12 PM onwards. Registration is free now; offline payments will be announced soon."
                 ),
                 e(
                   "div",
@@ -625,7 +625,7 @@
                           className:
                             "text-2xl md:text-3xl font-bold mt-2 text-verveGold",
                         },
-                        "The Royal Retreat"
+                        "Loop Ranchi"
                       ),
                       e(
                         "div",
@@ -639,8 +639,10 @@
                       e("div", { className: "text-gray-300 text-sm" }, "Entry"),
                       e(
                         "div",
-                        { className: "text-verveGold font-bold text-xl" },
-                        "Free to Register"
+                        {
+                          className: "text-verveGold font-bold text-xl",
+                        },
+                        "Get Your Passes at ₹1700 | Free to Register"
                       )
                     )
                   ),
@@ -689,7 +691,7 @@
                 ),
                 " Registration via the Google Form is ",
                 e("strong", null, "free"),
-                ". Offline payment details will be announced in 2-3 days, shared here and on our Instagram ",
+                ". Offline payment details will be announced soon, shared here and on our Instagram ",
                 e(
                   "a",
                   {
@@ -711,7 +713,7 @@
                 e(
                   "li",
                   { className: "p-4 bg-white/5 rounded-xl glass" },
-                  "• Register now for free to secure your pass for The Royal Retreat."
+                  "• Register now for free to secure your pass for Loop Ranchi."
                 ),
                 e(
                   "li",
@@ -737,7 +739,7 @@
               e(
                 "h3",
                 { className: "text-3xl font-bold mb-6 text-center" },
-                "Venue · Date · Details"
+                "Venue · Date · Highlights"
               ),
               e(
                 "p",
@@ -746,18 +748,17 @@
                     "text-lg text-gray-200 mb-6 max-w-3xl mx-auto text-center",
                 },
                 "Join us at ",
-                e(
-                  "strong",
-                  { className: "text-verveGold" },
-                  "The Royal Retreat"
-                ),
+                e("strong", { className: "text-verveGold" }, "Loop Ranchi"),
                 " on ",
                 e("strong", null, "December 6, 2025 (Saturday), 12 PM onwards"),
-                ". More details, including menu and attractions, will be revealed in 2-3 days on this page and our Instagram."
+                ". Get ready for an unforgettable farewell with a lineup of exciting features, all detailed in our highlight card below!"
               ),
               e(
                 "div",
-                { className: "grid grid-cols-1 md:grid-cols-2 gap-8" },
+                {
+                  className:
+                    "grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-center",
+                },
                 e(
                   "div",
                   {
@@ -765,8 +766,8 @@
                       "rounded-2xl overflow-hidden border border-white/10",
                   },
                   e("img", {
-                    src: "royal_retreat.jpg",
-                    alt: "The Royal Retreat",
+                    src: "loop.jpg",
+                    alt: "Loop Ranchi",
                     className: "w-full h-full object-cover",
                     onError:
                       "this.src='https://via.placeholder.com/600x400?text=Venue+Image'",
@@ -784,12 +785,7 @@
                     e(
                       "p",
                       { className: "text-lg text-gray-200" },
-                      "The Royal Retreat will host our grand farewell with a menu featuring vegetarian and non-vegetarian dishes, non-alcoholic beverages. More exciting details coming soon!"
-                    ),
-                    e(
-                      "p",
-                      { className: "text-base text-gray-400 mt-4" },
-                      "Offline payment details will be announced in 2-3 days. Follow us on Instagram for updates."
+                      "Loop Ranchi will host our grand farewell with a menu featuring vegetarian and non-vegetarian dishes, and non-alcoholic beverages."
                     ),
                     e(
                       "div",
@@ -818,22 +814,59 @@
                         rel: "noopener noreferrer",
                         className:
                           "inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-br from-vervePurple to-verveTeal text-white rounded-full font-semibold shadow-lg cta-glow hover:scale-105 transition",
-                        "aria-label": "View The Royal Retreat on Google Maps",
+                        "aria-label": "View Loop Ranchi on Google Maps",
                       },
                       e(IconMap, { className: "w-6 h-6" }),
                       "View on Google Maps"
-                    ),
-                    e(
-                      "a",
-                      {
-                        href: "#",
-                        className:
-                          "inline-flex items-center gap-3 px-6 py-3 border border-white/15 rounded-full text-gray-200 hover:bg-white/10 transition cta-glow",
-                        "aria-label": "More details coming soon",
-                      },
-                      "More Details Soon"
                     )
                   )
+                )
+              ),
+              e(
+                "div",
+                {
+                  className:
+                    "mt-12 max-w-4xl mx-auto glass rounded-3xl p-10 border border-white/10 shadow-2xl text-center reveal",
+                  style: { background: "rgba(255, 255, 255, 0.05)" },
+                },
+                e(
+                  "h4",
+                  {
+                    className:
+                      "text-4xl md:text-5xl font-bold text-verveGold mb-6",
+                  },
+                  "Event Highlights"
+                ),
+                e(
+                  "p",
+                  {
+                    className:
+                      "text-3xl md:text-4xl font-extrabold text-white mb-8",
+                    style: { textShadow: "0 0 10px rgba(212, 168, 74, 0.7)" },
+                  },
+                  "₹1700 per Person"
+                ),
+                e(
+                  "ul",
+                  { className: "text-lg text-gray-200 space-y-4 mb-6" },
+                  e("li", null, "🥁 Entry With Dhol"),
+                  e("li", null, "🎧 DJ Entertainment"),
+                  e("li", null, "🎵 Sound & Light Setup"),
+                  e("li", null, "🎙️ Anchor"),
+                  e("li", null, "🎁 Gifts for Activities"),
+                  e("li", null, "🎮 Exciting Games"),
+                  e("li", null, "📸 Photography"),
+                  e("li", null, "🎥 Videography"),
+                  e("li", null, "✂️ Edited Video"),
+                  e("li", null, "🤳 Photo Booth"),
+                  e("li", null, "🎂 Cake with Cold Pyro (Gun)")
+                ),
+                e(
+                  "p",
+                  {
+                    className: "text-base text-gray-300 mt-4",
+                  },
+                  "Offline payment of ₹1700 per person will be collected soon. Those who have registered will receive their exclusive passes and final details. Register now for free via the form below!"
                 )
               )
             ),
@@ -861,23 +894,19 @@
                     className: "text-lg text-gray-200 max-w-2xl mx-auto mb-6",
                   },
                   "Be a part of the grand Class X farewell at ",
-                  e(
-                    "strong",
-                    { className: "text-verveGold" },
-                    "The Royal Retreat"
-                  ),
+                  e("strong", { className: "text-verveGold" }, "Loop Ranchi"),
                   " on December 6, 2025, starting at 12 PM. Those who have registered will receive their ",
                   e("strong", null, "exclusive event passes"),
-                  " and major details, including the full menu and exciting attractions, in just 2-3 days. If you haven’t registered yet, ",
+                  " and major details, including the full lineup, in just a few days. If you haven’t registered yet, ",
                   e("strong", { className: "text-verveGold" }, "act now"),
-                  " to secure your spot for this unforgettable celebration filled with delicious food and memorable moments."
+                  " to secure your spot for this unforgettable celebration filled with music, food, and fun!"
                 ),
                 e(
                   "p",
                   {
                     className: "text-base text-gray-300 max-w-2xl mx-auto mb-6",
                   },
-                  "Registration is completely free and takes only a minute through our secure Google Form. Your early registration helps us plan a seamless experience, ensuring we have enough space and resources for everyone. Offline payment details, if required, will be shared transparently soon after final confirmations."
+                  "Registration is completely free and takes only a minute through our secure Google Form. Your early registration helps us plan a seamless experience, ensuring we have enough space and resources for everyone. Offline payment details will be shared transparently soon after final confirmations."
                 ),
                 e(
                   "a",
@@ -1029,17 +1058,18 @@
     1) Place these files in the same folder as index.html:
        - headerNew.jpg (hero banner)
        - logoNew.png (header logo)
-       - royal_retreat.jpg (venue image)
+       - royal_retreat.jpg (venue image; replace with a Loop Ranchi image if available)
        - event_guru_logo.png (partner logo, size h-16)
        - music.mp3 (optional; remove audio element if unused)
-    2) Google Maps link is set to https://maps.app.goo.gl/7ageuUKAGHfaB3LP9.
+    2) Google Maps link updated to https://maps.app.goo.gl/7rbA21Wj1EsBEjBU7 for Loop Ranchi.
     3) Instagram handle is @farewell2k25_verve.
-    4) Only hero, about, venue, and register sections are included (gallery removed).
-    5) Final Call section updated: "Registered attendees" changed to "Those who have registered" for simpler English.
-    6) Event Guru logo remains at h-16; all other content unchanged.
-    7) Time is 12 PM onwards; no DJ/drone references; details in 2-3 days.
+    4) Hero section card retains "Get Your Passes at ₹1700 | Free to Register".
+    5) Venue section updated: Changed to Loop Ranchi with new facilities (Entry With Dhol, DJ, Sound & Light Setup, Anchor, Gifts for Activities, Games, Photography, Videography, Edited Video, Photo Booth, Cake with Cold Pyro).
+    6) Event Guru logo remains at h-16; other sections (about, register, footer) unchanged.
+    7) Time is 12 PM onwards; price is ₹1700 per person (offline payment).
     8) Added ARIA labels for accessibility.
-    9) If you need further tweaks, specific content changes, or design adjustments, let me know!
+    9) If you have a Loop Ranchi image, replace royal_retreat.jpg for accuracy.
+    10) If you need further tweaks, specific content changes, or design adjustments, let me know!
     -->
   </body>
 </html>
